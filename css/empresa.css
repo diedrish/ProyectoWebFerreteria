@@ -1,0 +1,22 @@
+#logo {
+    background-image: url(../images/xyz2.png);
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#logo label {
+    margin-left: 30%;
+}
+
+#logo label h1 {
+    color: black;
+}
+
+.wave {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    z-index: -1;
+}
