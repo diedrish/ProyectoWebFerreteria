@@ -192,6 +192,44 @@ CREATE TABLE empleados (
   FOREIGN KEY (idSucursal) REFERENCES sucursales (idSucursal)
 ) ;
 
+CREATE TABLE correlativos (
+  idCorrelativo int(11) NOT NULL AUTO_INCREMENT,
+  idDocumento varchar(10) DEFAULT NULL,
+  serie varchar(100) DEFAULT NULL,
+  desde int(5) unsigned zerofill DEFAULT NULL,
+  hasta int(5) unsigned zerofill DEFAULT NULL,
+  n_resolucion varchar(45) DEFAULT NULL,
+  fecha_resolucion varchar(45) DEFAULT NULL,
+  PRIMARY KEY (idCorrelativo),
+  KEY idDocumento (idDocumento),
+   FOREIGN KEY (idDocumento) REFERENCES tipodocumentos (idDocumento)
+) ;
+
+create table cajas(
+idNumCaja int,
+idSucursal int,
+primary key(idNUmCaja,idSucursal),
+foreign key(idSucursal)references sucursales(idSucursal)
+);
+
+create table correlativosCajas(
+linea int auto_increment,
+idCorrelativo int,
+idNumCaja int,
+desde int,
+hasta int,
+actual int,
+estado varchar(50),
+idDocumento varchar(10),
+idSucursal int,
+primary key (linea),
+foreign key(idSucursal)references sucursales(idSucursal),
+foreign key(idCorrelativo)references correlativos(idCorrelativo),
+foreign key(idNumCaja)references cajas(idNumCaja),
+foreign key(idDocumento)references tipodocumentos(idDocumento)
+);
+
+
 
 
 

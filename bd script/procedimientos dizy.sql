@@ -292,4 +292,12 @@ in idDpt int
  create procedure bsucarDoumentosName()
  select * from tipodocumentos;
  
+ create procedure traercorrelativofactura(
+ in sucursal int,
+ in caja int,
+ in documento varchar(10)
+ )select (actual +1)as actual from correlativoscajas where idSucursal=sucursal and idNumCaja=caja and idDocumento=documento;
+ 
+ 
+ 
  

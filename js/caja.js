@@ -3,7 +3,7 @@ $(document).ready(function() {
     // Global Settings
     edit = false;
     traerOrdenes();
-    llenarDepartamentos();
+    llenarDocumentos();
 
 
     //
@@ -50,10 +50,8 @@ $(document).ready(function() {
                     lista.forEach(listar => {
                         template += `
                            <tr idEditarOrden="${listar.orden}">
-                           <td >${listar.orden}</td>
-                            <td >${listar.nombre}</td>
-                            <td>${listar.estado}</td>
-                            <td>${listar.total}</td>
+                            <td style="width=300px;">${listar.nombre}</td>
+                            <td style="width=100px;">${listar.total}</td>
                             <td> <button id="facturando" class="btn btn-warning"><img src="../../images/iconos/facturar-package.png" border="0"  width="16" height="16"></button></td>
                             <td> <button id="eliminando" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td>
                            </tr>
@@ -82,12 +80,51 @@ $(document).ready(function() {
     function totalizar() {
         try {
             var filas = document.getElementById('tbDetalle').rows.length;
-            var total = 0.00;
+            let total = 0.00;
+            let sumas = 0.00;
+            let iva = 0.00;
+            let subtotal = 0.00;
+            let retencion = 0.00;
             for (var i = 0; i < filas; i++) {
                 var totalfila = (document.getElementById('tbDetalle').rows[i].cells[4].innerHTML);
                 total = ((Number(totalfila)) + (Number(total))).toFixed(2);
+                //para traer  precio
 
+                const documento = $('#documento').val();
+                if (documento === "CCF") {
+
+                    const id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
+
+                    $.post('../../controller/Productos/listarProductobyId.php', {
+                        id
+                    }, (response) => {
+                        console.log(response);
+                        const task = JSON.parse(response);
+                        var precioconiva = Number(task.precio);
+                        var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
+                        console.log(preciosiniva);
+                        console.log(precioconiva);
+                        var cantidad = 1;
+                        iva = Number(((precioconiva - preciosiniva) * cantidad).toFixed(2)) + Number(iva);
+                        sumas = Number(((preciosiniva) * cantidad) + sumas);
+                        subtotal = Number(sumas) + Number(iva);
+
+                        $('#sumas').val(sumas);
+                        $('#iva').val(iva);
+                        $('#subtotal').val(subtotal);
+                        $('#retencion').val(retencion);
+                        $('#totalfinal').val(Number(subtotal) - Number(retencion));
+                    });
+                } else {
+
+                }
+
+
+
+                //fin 
             }
+
+
             $('#totalFinal').val(total);
         } catch (error) {
             $('#totalFinal').val("0.00");
@@ -110,15 +147,14 @@ $(document).ready(function() {
     //para facturar
 
     $(document).on('click', '#facturando', (e) => {
-        if (confirm("DESEA PROCEDER A FACTURAR ESTA ORDEN?")) {
 
-            const element = $(this)[0].activeElement.parentElement.parentElement;
-            const id = $(element).attr('idEditarOrden');
+        const element = $(this)[0].activeElement.parentElement.parentElement;
+        const id = $(element).attr('idEditarOrden');
 
-            $('#orden').val(id);
-            traerDetalleOrden(id);
-            totalizar();
-        }
+        $('#orden').val(id);
+        traerDetalleOrden(id);
+        totalizar();
+
     });
     //
 
@@ -142,11 +178,11 @@ $(document).ready(function() {
             alert("VERIFIQUE LA CANTIDAD");
         } else {
             var fila = '<tr idFila=' +
-                codigo + '><td class="codigo">' + codigo + '</td><td class="descripcion">' +
-                descripcion + '</td><td class="precio">' +
-                precio + '</td><td class="cantidad">input type="number" value="' +
-                cantidad + '"></td> <td class="total">' +
-                total + '</td></tr> ';
+                codigo + '><td class="codigo" style="width:25px;">' + codigo + '</td><td class="descripcion"style="width:300px;">' +
+                descripcion + '</td><td class="precio"style="width:100px;">' +
+                precio + '</td><td class="cantidad"  style="width:50px;"><input type="number" value="' +
+                cantidad + '" style="width:50px;"></td> <td class="total" style="width:100px;">' +
+                total + '</td> <td> <button id="elimandoItem" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td></tr> ';
             $('#tbDetalle').append(fila);
             $('#idProducto').val("");
             $('#descripcion').val("");
@@ -245,7 +281,18 @@ $(document).ready(function() {
                 const task = JSON.parse(response);
 
                 $('#descripcion').val(task.nombre);
-                $('#precio').val(task.precio);
+                var precioconiva = Number(task.precio);
+                const documento = $('#documento').val();
+
+                if (documento === "CCF") {
+                    var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
+
+                    $('#precio').val(preciosiniva);
+                } else {
+                    $('#precio').val(task.precio);
+
+                }
+
             } catch (error) {
                 alert("NO EXISTE UN PRODUCTO CON ESE CODIGO");
                 $('#descripcion').val("");
@@ -258,10 +305,60 @@ $(document).ready(function() {
 
     });
 
+    $('#buscarNrc').click(function() {
+
+        const id = $('#nrc').val();
+
+        $.post('../../controller/clientes/buscarClientebyNrc.php', {
+            id
+        }, (response) => {
+            try {
+                const task = JSON.parse(response);
+                $('#cliente').val(task.nombre);
+                $('#nit').val(task.nit);
+                $('#nrc').val(task.nrc);
+                $('#giro').val(task.giro);
+            } catch (error) {
+                alert("NO EXISTE UN CLIENTE CON ESE NRC");
+
+            }
+
+
+        });
+
+
+    });
+
+
+    function correlativo() {
+
+        var documento = $("#documento option:selected").val();
+        $.post('../../controller/documentos/traerCorrelativoFactura.php', {
+            documento
+        }, (response) => {
+
+            try {
+                const task = JSON.parse(response);
+
+                $('#numDoc').val(task.actual);
+
+            } catch (error) {
+
+                $('#numDoc').val("");
+            }
+
+
+        });
+    }
+
+    //para traer correlativo
+    $(document).on('change', '#documento', function(event) {
+        correlativo();
+    });
 
 
     //llenar select documentps
-    function llenarDepartamentos() {
+    function llenarDocumentos() {
         $.ajax({
             url: '../../controller/documentos/buscarDocumentosNombre.php',
             type: 'GET',
@@ -270,7 +367,7 @@ $(document).ready(function() {
                 if (JSON.parse(response).length < 1) {
                     let template = '';
                     template += `
-                   <option value="0">NO HAY DOCUEMNTOS </option>
+                   <option value="0">NO HAY DOCUEMENTOS </option>
                   `
                     $('#documento').html(template);
 
@@ -284,8 +381,7 @@ $(document).ready(function() {
                   `
                     });
                     $('#documento').html(template);
-
-
+                    correlativo();
                 }
 
             }
