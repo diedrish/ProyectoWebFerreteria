@@ -34,7 +34,9 @@ $(document).ready(function() {
                     nrc: $('#nrc').val(),
                     direccion: $('#direccion').val(),
                     giro: $('#giro').val(),
-                    municipio: $('#municipio').val()
+                    municipio: $('#municipio').val(),
+                    credito: $('#credito').val()
+
                 },
                 type: 'POST',
                 success: function(response) {
@@ -216,6 +218,9 @@ $(document).ready(function() {
                 $('#giro').val(task.giro);
                 $('#departamento').val(task.departamento);
                 $('#municipio').val(task.municipio);
+                $('#credito').val(task.credito);
+
+
                 edit = true;
                 idCliente = id;
             });

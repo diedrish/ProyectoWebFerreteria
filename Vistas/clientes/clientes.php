@@ -91,6 +91,13 @@
                                 <input type="text" name="giro" id="giro" placeholder="Giro" class="form-control"
                                     autocomplete="off" required>
                             </div>
+                            <div class="form-group">
+                                <label for="credito">Permitir Credito</label>
+                                <select name="credito"  id="credito" class="custom-select">
+                                    <option value="SI">PERMITIR</option>
+                                    <option value="NO" selected>DENEGAR</option>
+                                </select>
+                            </div>
                             <center>
                                 <div class="col-md-12">
                                     <button type="submit" 

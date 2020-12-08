@@ -244,11 +244,17 @@ in nit varchar(50),
 in nrc varchar(50),
 in direccion varchar(1500),
 in giro varchar(200),
-in municipio int
-)insert into clientes values(null,nombre,tipo,nit,nrc,direccion,giro,municipio);
+in municipio int,
+in credito varchar(30)
+)insert into clientes values(null,nombre,tipo,nit,nrc,direccion,giro,municipio,credito);
 
 
- CREATE  PROCEDURE actualizarCliente(
+create procedure crearCuentaporCobrar(
+in cliente int,
+fecha varchar(30)
+)insert into cuentasporCobrar values(null,cliente,fecha,0.00);
+
+CREATE  PROCEDURE actualizarCliente(
  in id int,
 in nombreCliente varchar(200),
 in tipoCliente varchar(50),
@@ -256,10 +262,13 @@ in nitCliente varchar(50),
 in nrcCliente varchar(50),
 in direccionCliente varchar(1500),
 in giroCliente varchar(200),
-in municipioCliente int
-)update clientes set nombre=nombreCliente,tipoEmpresa=tipoCliente,
-nit=nitCliente,nrc=nrcCliente,direccion=direccionCliente,giro=giroCliente,idMunicipio=municipioCliente where idCliente=id;
-
+in municipioCliente int,
+in credito varchar(30)
+)
+update clientes set nombre=nombreCliente,tipoEmpresa=tipoCliente,
+nit=nitCliente,nrc=nrcCliente,direccion=direccionCliente,giro=giroCliente,idMunicipio=municipioCliente,credito=credito
+ where idCliente=id;
+ 
 create procedure buscarCliente(
 )select * from clientes;
 
@@ -273,9 +282,13 @@ in nrcEmpresa varchar(50)
 
 create procedure buscarClientebyId(
 in id int
-)select cli.idCliente,cli.nombre as nombreempresa,cli.tipoEmpresa,cli.nit,cli.nrc,cli.direccion,cli.giro,cli.idMunicipio,dpt.*
+)select cli.idCliente,cli.nombre as nombreempresa,cli.tipoEmpresa,cli.credito,cli.nit,cli.nrc,cli.direccion,cli.giro,cli.idMunicipio,dpt.*
 from departamentos as dpt ,clientes as cli ,municipio as mu where
  cli.idMunicipio=mu.idMunicipio and mu.idDepartamento=dpt.idDepartamento and cli.idCliente=id;
+
+create procedure buscarClienteCuentaporCobrar(
+in cliente int
+)select * from cuentasporCobrar where idCliente=cliente;
 
 -- para departametos
 
@@ -297,6 +310,8 @@ in idDpt int
  in caja int,
  in documento varchar(10)
  )select (actual +1)as actual from correlativoscajas where idSucursal=sucursal and idNumCaja=caja and idDocumento=documento;
+ 
+ 
  
  
  

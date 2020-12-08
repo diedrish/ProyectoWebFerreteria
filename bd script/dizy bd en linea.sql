@@ -159,6 +159,7 @@ CREATE TABLE clientes (
   direccion varchar(1500) DEFAULT NULL,
   giro varchar(200) DEFAULT NULL,
   idMunicipio int(11) DEFAULT NULL,
+  credito varchar(30) ,
 PRIMARY KEY (idCliente),
 FOREIGN KEY (idMunicipio) REFERENCES municipio (idMunicipio) 
 ) ;
@@ -229,6 +230,26 @@ foreign key(idNumCaja)references cajas(idNumCaja),
 foreign key(idDocumento)references tipodocumentos(idDocumento)
 );
 
+create table cuentasporCobrar(
+linea int auto_increment,
+idCliente int,
+fechaCreacion varchar(30),
+saldo double,
+primary key(linea),
+foreign key(idCliente)references clientes(idCliente)
+);
+
+create table detalleCuentasporCobrar(
+lineaDetalle int auto_increment,
+linea int,
+idCliente int,
+fechaMovimiento varchar(30),
+debe double,
+haber double,
+primary key(lineaDetalle),
+foreign key(linea)references cuentasporCobrar(linea),
+foreign key(idCliente)references clientes(idCliente)
+);
 
 
 
