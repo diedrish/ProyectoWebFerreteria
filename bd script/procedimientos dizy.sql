@@ -106,6 +106,19 @@ in sucursal int
  in actual int
  )update movimientos set actual=actual where idMovimiento=id and idSucursal=sucursal;
  
+ 
+ 
+ 
+ 
+ -- para sucursales
+ create procedure traerSucursales(
+ in sucursal int
+ )select * from sucursales where idSucursal!=sucursal;
+ 
+ 
+ 
+ 
+ 
  -- para proveedores 
  create procedure crearProveedor(
 in nombre varchar(200),

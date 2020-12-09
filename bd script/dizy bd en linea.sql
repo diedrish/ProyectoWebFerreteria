@@ -252,7 +252,35 @@ foreign key(idCliente)references clientes(idCliente)
 );
 
 
+create table movimientosInventario(
+idIngreso int ,
+idMovimiento int,
+numeroIngreso int,
+fechaMovimiento varchar(30),
+salida int,
+destino int,
+copia varchar(10),
+estadp varchar(100),
+idSucursal int,
+primary key(idIngreso,idMovimiento,idSucursal),
+foreign key(idMovimiento)references movimientos(idMovimiento),
+foreign key(idSucursal)references sucursales(idSucursal),
+foreign key(salida)references sucursales(idSucursal),
+foreign key(destino)references sucursales(idSucursal)
+);
 
+create table detalleMovimientoInventario(
+lineaDetalle int auto_increment,
+idMovimiento int,
+numeroIngreso int,
+idProducto varchar(25),
+precio double,
+cantidad int,
+total double,
+primary key(lineaDetalle),
+foreign key(idProducto)references productos(idProducto),
+foreign key(idMovimiento)references movimientos(idMovimiento)
+);
 
 
 
