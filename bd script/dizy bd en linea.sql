@@ -253,16 +253,16 @@ foreign key(idCliente)references clientes(idCliente)
 
 
 create table movimientosInventario(
-idIngreso int ,
+idEgreso int ,
 idMovimiento int,
 numeroIngreso int,
 fechaMovimiento varchar(30),
 salida int,
 destino int,
 copia varchar(10),
-estadp varchar(100),
+estado varchar(100),
 idSucursal int,
-primary key(idIngreso,idMovimiento,idSucursal),
+primary key(idEgreso,idMovimiento,idSucursal),
 foreign key(idMovimiento)references movimientos(idMovimiento),
 foreign key(idSucursal)references sucursales(idSucursal),
 foreign key(salida)references sucursales(idSucursal),
@@ -271,15 +271,19 @@ foreign key(destino)references sucursales(idSucursal)
 
 create table detalleMovimientoInventario(
 lineaDetalle int auto_increment,
+idEgreso int,
 idMovimiento int,
 numeroIngreso int,
 idProducto varchar(25),
 precio double,
 cantidad int,
 total double,
+idSucursal int,
 primary key(lineaDetalle),
+foreign key(idEgreso)references movimientosinventario(idEgreso),
 foreign key(idProducto)references productos(idProducto),
-foreign key(idMovimiento)references movimientos(idMovimiento)
+foreign key(idMovimiento)references movimientos(idMovimiento),
+foreign key(idSucursal)references sucursales(idSucursal)
 );
 
 

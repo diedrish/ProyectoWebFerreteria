@@ -1,9 +1,11 @@
 $(document).ready(function() {
 
     // Global Settings
+
     edit = false;
     traerIngresoActual();
     llenarSelect();
+
 
     //llenar select
     function llenarSelect() {
@@ -39,16 +41,96 @@ $(document).ready(function() {
     }
     //
 
+    //function crear Ingreso
+    function crearIngresoSucursalRecibidor(suc) {
+
+        const id = "2";
+        const sucursal = suc;
+
+        $.post('../../controller/movimientosInventario/traerMovimientoActual.php', {
+            id,
+            sucursal
+        }, (response) => {
+
+            const task = JSON.parse(response);
+
+
+
+            var ingreso = task.actual;
+            console.log("este es el ingreso" + ingreso);
+            var u = "../../controller/movimientosInventario/crearEgreso.php";
+            $.ajax({
+                url: u,
+                data: {
+                    id: ingreso,
+                    movimiento: "2",
+                    numero: ingreso,
+                    estadoEgreso: "PENDIENTE",
+                    salida: "1",
+                    destino: $('#sucursal').val(),
+                    copia: "SI",
+                    sucursal: $('#sucursal').val()
+                },
+                type: 'POST',
+                success: function(response) {
+
+                    var msj = new String(response).valueOf().trim();
+                    if (msj === "true") {
+                        var filas = document.getElementById('tbDetalle').rows.length;
+
+                        //se creo el encabezado asi que guardo el detalle
+                        for (var i = 0; i < filas; i++) {
+                            var u = "../../controller/movimientosInventario/crearDetalleEgreso.php";
+                            let productoi = document.getElementById('tbDetalle').rows[i].cells[0].innerHTML;
+                            let cantidadi = document.getElementById('tbDetalle').rows[i].cells[3].innerHTML;
+
+                            $.ajax({
+                                url: u,
+                                data: {
+                                    id: ingreso,
+                                    movimiento: "2",
+                                    numero: ingreso,
+                                    producto: document.getElementById('tbDetalle').rows[i].cells[0].innerHTML,
+                                    precio: 0.00,
+                                    cantidad: document.getElementById('tbDetalle').rows[i].cells[2].innerHTML,
+                                    total: 0.00,
+                                    sucursal: $('#sucursal').val()
+                                },
+                                type: 'POST',
+                                success: function(response) {
+
+                                }
+
+                            });
+                        }
+                        actualizarActual("2", ingreso, $('#sucursal').val());
+                        console.log("ingreso sucursal destino EXITOSO");
+                    } else {
+                        console.log("NO SE PUDO CREAR EL ingreso sucursal destino ")
+
+
+                    }
+
+                }
+            });
+
+
+        });
+
+
+
+
+
+
+    }
+
+    ///
+
     function agregarFilas() {
         var codigo = $('#idProducto').val();
         var descripcion = $('#descripcion').val();
         var cantidad = $('#cantidad').val();
-        var numerodoc = $('#numerodoc').val();
-        var totaldoc = $('#totaldoc').val();
-
-        if (numerodoc === "" || totaldoc === "") {
-            alert("VERFIQUE NUMERO DOCUMENTO U TOTAL DOCUMENTO");
-        } else if (descripcion === "") {
+        if (descripcion === "") {
             alert("VERIFIQUE EL PRODUCTO")
         } else if (cantidad < 1) {
             alert("VERIFIQUE LA CANTIDAD");
@@ -69,7 +151,7 @@ $(document).ready(function() {
                     var fila = '<tr idFila=' +
                         codigo + '><td class="codigo">' + codigo + '</td><td class="descripcion">' +
                         descripcion + '</td><td class="cantidad">' +
-                        cantidad + '</td></tr>';
+                        cantidad + '</td> <td> <button  id="deleteItem" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td></tr>';
                     $('#tbDetalle').append(fila);
                     $('#idProducto').val("");
                     $('#descripcion').val("");
@@ -77,23 +159,22 @@ $(document).ready(function() {
 
                 }
 
-
-
-
             });
-
-
-
-
-
 
         }
 
 
     }
 
+    //boorar fila
+    $(document).on('click', '#deleteItem', function(event) {
+        event.preventDefault();
+        if (confirm("SE QUITARA EL PRODUCTO\nDESEA CONTINUAR?")) {
 
+            $(this).closest('tr').remove();
 
+        }
+    });
     //para traer ingreso
     function traerIngresoActual() {
 
@@ -105,7 +186,7 @@ $(document).ready(function() {
             sucursal
         }, (response) => {
             const task = JSON.parse(response);
-            $('#ingreso').val(task.actual);
+            $('#egreso').val(task.actual);
 
         });
 
@@ -114,86 +195,76 @@ $(document).ready(function() {
 
     }
 
+
+
     //btn cancelar
     $('#btnGuardar').click(function() {
-        var numerodoc = $('#numerodoc').val();
-        var totaldoc = $('#totaldoc').val();
 
-        if (numerodoc === "" || totaldoc === "") {
-            alert("VERFIQUE NUMERO DOCUMENTO U TOTAL DOCUMENTO");
-        } else {
-            if (confirm("AL CREAR EL INGRESO ESTE SE CARGARA A SU EXISTENCIA\nDESEA CONTINUAR?")) {
-                var u = "../../controller/movimientosInventario/crearIngresoCompra.php";
-                $.ajax({
-                    url: u,
-                    data: {
-                        id: $('#ingreso').val(),
-                        movimiento: "1",
-                        numero: $('#ingreso').val(),
-                        proveedor: $('#proveedor').val(),
-                        tipodoc: $('#tipodoc').val(),
-                        numerodoc: $('#numerodoc').val(),
-                        fechadoc: $('#fechadoc').val(),
-                        estadodoc: $("#estadodoc").val(),
-                        estadoingreso: "APROBADO",
-                        total: $('#totaldoc').val(),
-                        idSucursal: "1"
-                    },
-                    type: 'POST',
-                    success: function(response) {
-                        var msj = new String(response).valueOf().trim();
-                        if (msj === "true") {
+        if (confirm("AL CREAR EL EGRESO ESTE SE DESCARGARA DE SU EXISTENCIA\nDESEA CONTINUAR?")) {
+            var u = "../../controller/movimientosInventario/crearEgreso.php";
+            $.ajax({
+                url: u,
+                data: {
+                    id: $('#egreso').val(),
+                    movimiento: "5",
+                    numero: $('#egreso').val(),
+                    estadoEgreso: "CERRADO",
+                    salida: "1",
+                    destino: $('#sucursal').val(),
+                    copia: "NO",
+                    sucursal: "1"
+                },
+                type: 'POST',
+                success: function(response) {
+                    console.log(response);
+                    var msj = new String(response).valueOf().trim();
+                    if (msj === "true") {
+                        var filas = document.getElementById('tbDetalle').rows.length;
 
-                            if ($("#estadodoc").val() === "SIN PAGAR") {
-                                saldoProveedor($('#proveedor').val(), $('#totaldoc').val());
+                        //se creo el encabezado asi que guardo el detalle
+                        for (var i = 0; i < filas; i++) {
+                            var u = "../../controller/movimientosInventario/crearDetalleEgreso.php";
+                            let productoi = document.getElementById('tbDetalle').rows[i].cells[0].innerHTML;
+                            let cantidadi = document.getElementById('tbDetalle').rows[i].cells[3].innerHTML;
 
-                            }
-
-
-                            var filas = document.getElementById('tbDetalle').rows.length;
-
-                            //se creo el encabezado asi que guardo el detalle
-                            for (var i = 0; i < filas; i++) {
-                                var u = "../../controller/movimientosInventario/crearDetalleIngreso.php";
-                                let productoi = document.getElementById('tbDetalle').rows[i].cells[0].innerHTML;
-                                let cantidadi = document.getElementById('tbDetalle').rows[i].cells[3].innerHTML;
-
-                                $.ajax({
-                                    url: u,
-                                    data: {
-                                        movimiento: "1",
-                                        numero: $('#ingreso').val(),
-                                        producto: document.getElementById('tbDetalle').rows[i].cells[0].innerHTML,
-                                        precio: document.getElementById('tbDetalle').rows[i].cells[2].innerHTML,
-                                        cantidad: document.getElementById('tbDetalle').rows[i].cells[3].innerHTML,
-                                        total: document.getElementById('tbDetalle').rows[i].cells[4].innerHTML,
-                                        idSucursal: "1"
-                                    },
-                                    type: 'POST',
-                                    success: function(response) {
-                                        let msj = new String(response).valueOf().trim();
-                                        if (msj === "true") {
-                                            existencia(productoi, cantidadi);
-                                        }
+                            $.ajax({
+                                url: u,
+                                data: {
+                                    id: $('#egreso').val(),
+                                    movimiento: "5",
+                                    numero: $('#egreso').val(),
+                                    producto: document.getElementById('tbDetalle').rows[i].cells[0].innerHTML,
+                                    precio: 0.00,
+                                    cantidad: document.getElementById('tbDetalle').rows[i].cells[2].innerHTML,
+                                    total: 0.00,
+                                    sucursal: "1"
+                                },
+                                type: 'POST',
+                                success: function(response) {
+                                    let msj = new String(response).valueOf().trim();
+                                    if (msj === "true") {
+                                        existencia(productoi, cantidadi);
                                     }
+                                }
 
-                                });
-                            }
-                            actualizarActual("1", $('#ingreso').val());
-                            traerIngresoActual();
-                            alert("INGRESO EXITOSO");
-                            location.reload();
-                        } else {
-                            alert("NO SE PUDO CREAR EL INGRESO")
-
-
+                            });
                         }
+                        actualizarActual("5", $('#egreso').val(), "1");
+                        crearIngresoSucursalRecibidor($('#sucursal').val());
+                        traerIngresoActual();
+                        alert("EGRESO EXITOSO");
+                        //  location.reload();
+                    } else {
+                        alert("NO SE PUDO CREAR EL EGRESO")
+
 
                     }
-                });
-            }
 
+                }
+            });
         }
+
+
 
 
 
@@ -204,7 +275,7 @@ $(document).ready(function() {
 
     function existencia(pro, can) {
 
-        var u = "../../controller/existencias/comprobarExistencia.php";
+        var u = "../../controller/existencias/restarExistenciaSucursal.php";
 
         $.ajax({
             url: u,
@@ -215,10 +286,11 @@ $(document).ready(function() {
             },
             type: 'POST',
             success: function(response) {
+                console.log(response);
                 let exito = new String(response).valueOf().trim();
 
                 if (exito === "true") {
-
+                    console.log("se resto la existencia");
 
                 }
 
@@ -231,7 +303,7 @@ $(document).ready(function() {
     }
 
     //para actualizar actual
-    function actualizarActual(id, actual) {
+    function actualizarActual(id, actual, suc) {
         var u = "../../controller/movimientosInventario/actualizarMovimientoActual.php";
 
         $.ajax({
@@ -239,7 +311,7 @@ $(document).ready(function() {
             data: {
                 id: id,
                 actual: actual,
-                sucursal: "1"
+                sucursal: suc
             },
             type: 'POST',
             success: function(response) {

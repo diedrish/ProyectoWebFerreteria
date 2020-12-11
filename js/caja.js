@@ -200,7 +200,7 @@ $(document).ready(function() {
 
     //
     //para eliminar item de orden
-    $(document).on('click', '#eliminandoDetalle', (e) => {
+    $(document).on('click', '#eliminandoItem', (e) => {
         if (confirm("SE QUITARA EL PRODUCTO\nDESEA CONTINUAR?")) {
             const element = $(this)[0].activeElement.parentElement.parentElement;
             const id = $(element).attr('idFila');

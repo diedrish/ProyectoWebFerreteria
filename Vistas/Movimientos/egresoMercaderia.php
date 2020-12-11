@@ -33,7 +33,7 @@
    
     <!-- NAVIGATION  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Ingreso por Compra</a>
+        <a class="navbar-brand" href="#">Egresos de Mercaderia</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -54,8 +54,8 @@
         <form id="egresos-form">
             <div class="row">
                 <div class="form-group col-md-2  ">
-                    <label for="ingreso">N. Ingreso </label>
-                    <input type="text" name="ingreso" id="ingreso" class="form-control" style="width:50%"
+                    <label for="egreso">N. Egreso </label>
+                    <input type="text" name="egreso" id="egreso" class="form-control" style="width:50%"
                         autocomplete="off" readonly>
                 </div>
             </div>
@@ -69,15 +69,6 @@
 
                     </select>
                 </div>
-
-             
-                <div class="form-group col-md-2">
-                    <label for="fechadoc">FECHA Doc. </label>
-                    <input class="form-control" required type="date" value="2020-12-10" id="fechadoc">
-                </div>
-
-             
-              
 
             </div>
 

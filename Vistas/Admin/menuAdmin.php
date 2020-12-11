@@ -99,7 +99,7 @@
                     <section style="border:solid;
     padding: 10px;">
                         <center> <img class="img" src="../../images/iconos/salida.png" width="50" height="50"><br><br></center>
-                        <center> <input type="button" name="perfil" width="50"value="Gestion Egresos" class="boton btn btn-info" onclick="location.href='#'"></center>
+                        <center> <input type="button" name="perfil" width="50"value="Gestion Egresos" class="boton btn btn-info" onclick="location.href='../Movimientos/egresoMercaderia.php'"></center>
                     </section>
                 </td>
             </tr>

@@ -107,6 +107,28 @@ in sucursal int
  )update movimientos set actual=actual where idMovimiento=id and idSucursal=sucursal;
  
  
+ create procedure crearMovimientoSalida(
+ in egreso int,
+ in movimiento int,
+ in numero int,
+ in fecha varchar(30),
+ in salida int,
+ in destino int,
+ in copia varchar(10),
+ in estado varchar(100),
+ in sucursal int
+ )insert into movimientosinventario values(egreso,movimiento,numero,fecha,salida,destino,copia,estado,sucursal);
+ 
+ create procedure crearDetalleSalida(
+ in egreso int,
+ in movimiento int,
+ in numero int,
+ in producto varchar(25),
+ in precio double,
+ in cantidad int,
+ in total double,
+ in sucursal int
+ )insert into detallemovimientoinventario values(null,egreso,movimiento,numero,producto,precio,cantidad,total,sucursal);
  
  
  
@@ -176,7 +198,7 @@ in direccion varchar(300)
  
  create procedure buscarExistenciaSucursales(
  in producto varchar(25)
- )
+ ) 
 select e.idProducto,e.cantidad,su.nombre,pro.descripcion 
 from existencias as e,sucursales as su,productos as pro 
 where e.idSucursal=su.idSucursal  and e.idProducto=pro.idProducto and e.idProducto=producto; 
