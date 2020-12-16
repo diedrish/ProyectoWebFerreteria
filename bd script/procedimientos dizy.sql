@@ -137,8 +137,43 @@ in sucursal int
  in sucursal int
  )select * from sucursales where idSucursal!=sucursal;
  
+ create procedure traerCajasSucursales(
+ in sucursal int
+ )select * from cajas where idSucursal=sucursal;
  
+ create procedure traerCorrelativoscaja(
+ in sucursal int,
+ in caja int
+ )select co.idCorrelativo,co.idDocumento,co.serie,co.n_resolucion,co.desde,co.hasta,cocaja.idNumCaja,cocaja.desde as desdecaja,cocaja.hasta as hastacaja,
+cocaja.actual as actualcaja,cocaja.estado as estadocaja,cocaja.idSucursal,cocaja.linea
+from correlativos as co,correlativoscajas as cocaja
+ where cocaja.idCorrelativo=co.idCorrelativo and cocaja.idDocumento=co.idDocumento
+ and cocaja.idSucursal=sucursal and cocaja.estado='ACTIVO' and cocaja.idNumCaja=caja order by cocaja.linea  asc;
  
+ create procedure validarDocumentoCaja(
+ in documento varchar(10),
+ in correlativo int,
+ in caja int,
+ in sucursal int
+ )select * from correlativoscajas where idDocumento=documento 
+ and idCorrelativo=correlativo and idNumCaja=caja and idSucursal=sucursal;
+ 
+ create procedure validarSerie(
+ in se varchar(100),
+ in documento varchar(10)
+ )
+ select * from correlativos where serie=se  and idDocumento=documento;
+ 
+ create procedure crearCorrelativosCajas(
+ in correlativo int,
+ in caja int,
+ in desde int ,
+ in hasta int,
+ in actual int,
+ in estado int,
+ in documento varchar(10),
+ in sucursal int
+ )insert into correlativoscajas values(null,correlativo,caja,desde,hasta,actual,estado,documento,sucursal);
  
  
  -- para proveedores 
@@ -337,7 +372,7 @@ in idDpt int
  
  -- para traer documentos;
  
- create procedure bsucarDoumentosName()
+ create procedure buscarDoumentosName()
  select * from tipodocumentos;
  
  create procedure traercorrelativofactura(

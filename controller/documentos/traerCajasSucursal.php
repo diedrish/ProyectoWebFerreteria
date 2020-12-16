@@ -1,10 +1,11 @@
 <?php
 
 include '../conexion/database.php';
+$sucursal=$_POST['sucursal'];
 
 date_default_timezone_set("AMERICA/El_Salvador");
 
-  $query = "call buscarDoumentosName()";
+  $query = "call traerCajasSucursales('$sucursal')";
   $result = mysqli_query($connection, $query);
   if(!$result) {
     die('Query Failed'. mysqli_error($connection));
@@ -14,9 +15,7 @@ date_default_timezone_set("AMERICA/El_Salvador");
   
   while($row = mysqli_fetch_array($result)) {
     $json[] = array(
-        'documento' => $row['idDocumento'],
-        'nombre' => $row['nombre']
-
+        'caja' => $row['idNumCaja'],
     );
   }
   $jsonstring=json_encode($json,JSON_UNESCAPED_UNICODE);

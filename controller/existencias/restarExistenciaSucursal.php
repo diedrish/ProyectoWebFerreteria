@@ -13,12 +13,9 @@
 
     $result = mysqli_query($connection, $query);
 
-
-      
-
         $fila =  mysqli_fetch_array( $result);
         $cantidadActual=$fila['cantidad'];
-        $cantidadNueva=$cantidadActual-$cantidad;
+        $cantidadNueva= $cantidadActual- $cantidad;
         
     include '../conexion/database.php';
         $query = "call actualizarExistencia('$producto','$cantidadNueva','$sucursal')";

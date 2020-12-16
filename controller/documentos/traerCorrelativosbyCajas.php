@@ -1,10 +1,12 @@
 <?php
 
 include '../conexion/database.php';
+$sucursal=$_POST["sucursal"];
+$caja=$_POST["caja"];
 
 date_default_timezone_set("AMERICA/El_Salvador");
 
-  $query = "call buscarDoumentosName()";
+  $query = "call traerCorrelativoscaja('$sucursal','$caja')";
   $result = mysqli_query($connection, $query);
   if(!$result) {
     die('Query Failed'. mysqli_error($connection));
@@ -14,8 +16,13 @@ date_default_timezone_set("AMERICA/El_Salvador");
   
   while($row = mysqli_fetch_array($result)) {
     $json[] = array(
+        'correlativo' => $row['idCorrelativo'],
         'documento' => $row['idDocumento'],
-        'nombre' => $row['nombre']
+        'serie' => $row['serie'],
+        'desde' => $row['desdecaja'],
+        'hasta' => $row['hastacaja'],
+        'actual' => $row['actualcaja'],
+        'caja' => $row['idNumCaja']
 
     );
   }

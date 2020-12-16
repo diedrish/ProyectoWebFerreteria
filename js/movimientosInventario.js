@@ -57,7 +57,6 @@ $(document).ready(function() {
 
 
             var ingreso = task.actual;
-            console.log("este es el ingreso" + ingreso);
             var u = "../../controller/movimientosInventario/crearEgreso.php";
             $.ajax({
                 url: u,
@@ -104,9 +103,8 @@ $(document).ready(function() {
                             });
                         }
                         actualizarActual("2", ingreso, $('#sucursal').val());
-                        console.log("ingreso sucursal destino EXITOSO");
                     } else {
-                        console.log("NO SE PUDO CREAR EL ingreso sucursal destino ")
+
 
 
                     }
@@ -216,7 +214,7 @@ $(document).ready(function() {
                 },
                 type: 'POST',
                 success: function(response) {
-                    console.log(response);
+
                     var msj = new String(response).valueOf().trim();
                     if (msj === "true") {
                         var filas = document.getElementById('tbDetalle').rows.length;
@@ -225,7 +223,7 @@ $(document).ready(function() {
                         for (var i = 0; i < filas; i++) {
                             var u = "../../controller/movimientosInventario/crearDetalleEgreso.php";
                             let productoi = document.getElementById('tbDetalle').rows[i].cells[0].innerHTML;
-                            let cantidadi = document.getElementById('tbDetalle').rows[i].cells[3].innerHTML;
+                            let cantidadi = document.getElementById('tbDetalle').rows[i].cells[2].innerHTML;
 
                             $.ajax({
                                 url: u,
@@ -253,7 +251,7 @@ $(document).ready(function() {
                         crearIngresoSucursalRecibidor($('#sucursal').val());
                         traerIngresoActual();
                         alert("EGRESO EXITOSO");
-                        //  location.reload();
+                        location.reload();
                     } else {
                         alert("NO SE PUDO CREAR EL EGRESO")
 
@@ -286,11 +284,10 @@ $(document).ready(function() {
             },
             type: 'POST',
             success: function(response) {
-                console.log(response);
                 let exito = new String(response).valueOf().trim();
 
                 if (exito === "true") {
-                    console.log("se resto la existencia");
+
 
                 }
 
