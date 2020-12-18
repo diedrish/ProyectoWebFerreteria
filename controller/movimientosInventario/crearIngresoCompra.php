@@ -2,7 +2,6 @@
 
 include '../conexion/database.php';
 
-date_default_timezone_set("AMERICA/El_Salvador");
 $id= $_POST["id"];
 $movimiento = $_POST["movimiento"];
 $numero = $_POST["numero"];
@@ -12,6 +11,7 @@ $numerodoc = $_POST["numerodoc"];
 $fechadoc = $_POST["fechadoc"];
 $estadodoc = $_POST["estadodoc"];
 $estadoingreso = $_POST["estadoingreso"];
+date_default_timezone_set("AMERICA/El_Salvador");
 $anio = date("Y");
 $mes = date("m");
 $dia = date("d");

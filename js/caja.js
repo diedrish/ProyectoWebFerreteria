@@ -6,11 +6,10 @@ $(document).ready(function() {
     llenarDocumentos();
 
 
-    //
+    //aqui traigo el detalle de la orden
     function traerDetalleOrden(ord) {
 
         var orden = ord;
-
         $.post('../../controller/ordenes/listarDetalleOrden.php', {
             orden
         }, (response) => {
@@ -24,13 +23,14 @@ $(document).ready(function() {
                 <td>${listar.producto}</td>
                 <td >${listar.descripcion}</td>
                 <td >${listar.precio}</td>
-                <td ><input type="number" style="width:50px;" value=${listar.cantidad}></td>
+                <td>${listar.cantidad}</td>
                 <td>${listar.total}</td>
-                <td> <button id="eliminandoDetalle" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td>
+                <td> <button type="button" id="eliminandoDetalle" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td>
                 </tr> 
                   `
             });
             $('#tbDetalle').html(template);
+
 
         });
 
@@ -76,8 +76,63 @@ $(document).ready(function() {
 
     });
 
+    function CambiarPrecio() {
+        try {
+            var filas = document.getElementById('tbDetalle').rows.length;
+
+            var orden = $('#orden').val();
+            let precio = 0.00;
+            let total = 0.00;
+            let cantidad = 0;
+            for (var i = 0; i < filas; i++) {
+                let id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
+                precio = 0.00;
+                total = 0.00;
+                cantidad = 0;
+                cantidad = (document.getElementById('tbDetalle').rows[i].cells[3].innerHTML);
+
+                $.post('../../controller/Productos/listarProductobyId.php', {
+                    id
+                }, (response) => {
+
+                    const task = JSON.parse(response);
+
+                    var documento = $('#documento').val();
+                    if (documento === "CCF") {
+
+                        precio = (Number(task.precio) / 1.13).toFixed(2);
+                    } else {
+                        precio = Number(task.precio);
+                    }
+                    total = Number(precio * cantidad).toFixed(2);
+                    console.log(id);
+                    $.post('../../controller/ordenes/actualizarPrecioDetalleOrden.php', {
+                        id,
+                        orden,
+                        precio,
+                        cantidad,
+                        total
+                    }, (response) => {
+
+                        traerDetalleOrden(orden);
+                    });
+
+
+                });
+
+
+
+            }
+        } catch (error) {
+
+        }
+        totalizar();
+    }
+
+
 
     function totalizar() {
+
         try {
             var filas = document.getElementById('tbDetalle').rows.length;
             let total = 0.00;
@@ -86,36 +141,34 @@ $(document).ready(function() {
             let subtotal = 0.00;
             let retencion = 0.00;
             for (var i = 0; i < filas; i++) {
+
                 var totalfila = (document.getElementById('tbDetalle').rows[i].cells[4].innerHTML);
                 total = ((Number(totalfila)) + (Number(total))).toFixed(2);
-                //para traer  precio
 
+                var cantidad = (document.getElementById('tbDetalle').rows[i].cells[3].innerHTML);
+                //para traer  precio
+                const id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
                 const documento = $('#documento').val();
                 if (documento === "CCF") {
-
-                    const id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
 
                     $.post('../../controller/Productos/listarProductobyId.php', {
                         id
                     }, (response) => {
-                        console.log(response);
+
                         const task = JSON.parse(response);
                         var precioconiva = Number(task.precio);
                         var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
-                        console.log(preciosiniva);
-                        console.log(precioconiva);
-                        var cantidad = 1;
-                        iva = Number(((precioconiva - preciosiniva) * cantidad).toFixed(2)) + Number(iva);
-                        sumas = Number(((preciosiniva) * cantidad) + sumas);
-                        subtotal = Number(sumas) + Number(iva);
-
+                        iva = (Number(((precioconiva - preciosiniva) * cantidad).toFixed(2)) + Number(iva)).toFixed(2);
+                        sumas = (Number(((preciosiniva) * cantidad) + sumas)).toFixed(2);
+                        subtotal = (Number(sumas) + Number(iva));
                         $('#sumas').val(sumas);
                         $('#iva').val(iva);
                         $('#subtotal').val(subtotal);
                         $('#retencion').val(retencion);
-                        $('#totalfinal').val(Number(subtotal) - Number(retencion));
+                        $('#totalfinal').val(((Number(subtotal) - Number(retencion))).toFixed(2));
                     });
                 } else {
+
 
                 }
 
@@ -136,12 +189,11 @@ $(document).ready(function() {
 
     //btn cancelar
     $('#btnCancelar').click(function() {
-        if (confirm("LOS DATOS ACTUALES NO SE GUARDARAN\nDESEA CONTINUAR?")) {
-            $('#orden-form').trigger('reset');
-            edit = false;
+
+        edit = false;
+        location.reload();
 
 
-        }
     });
 
     //para facturar
@@ -153,6 +205,7 @@ $(document).ready(function() {
 
         $('#orden').val(id);
         traerDetalleOrden(id);
+        CambiarPrecio();
         totalizar();
 
     });
@@ -166,82 +219,111 @@ $(document).ready(function() {
         var cantidad = $('#cantidad').val();
         var total = (precio * cantidad).toFixed(2);
         var nombre = $('#nombre').val();
+        var orden = $('#orden').val();
 
 
-        if (nombre === "") {
+        if (orden === "") {
+            alert("SELECCIONE UNA ORDEN");
+        } else if (nombre === "") {
             alert("VERFIQUE NOMBRE DE CLIENTE");
-        } else if (descripcion === "") {
+        } else
+        if (descripcion === "") {
             alert("VERIFIQUE EL PRODUCTO")
         } else if (precio < 0) {
             alert("VERIFIQUE EL PRECIO");
         } else if (cantidad < 1) {
             alert("VERIFIQUE LA CANTIDAD");
         } else {
-            var fila = '<tr idFila=' +
-                codigo + '><td class="codigo" style="width:25px;">' + codigo + '</td><td class="descripcion"style="width:300px;">' +
-                descripcion + '</td><td class="precio"style="width:100px;">' +
-                precio + '</td><td class="cantidad"  style="width:50px;"><input type="number" value="' +
-                cantidad + '" style="width:50px;"></td> <td class="total" style="width:100px;">' +
-                total + '</td> <td> <button id="elimandoItem" class="btn btn-danger"><img src="../../images/iconos/delete-package.png" border="0"  width="16" height="16"></button></td></tr> ';
-            $('#tbDetalle').append(fila);
+            var u = "../../controller/ordenes/crearDetalleOrden.php";
+            $.ajax({
+                url: u,
+                data: {
+                    orden: $('#orden').val(),
+                    producto: codigo,
+                    precio: precio,
+                    cantidad: cantidad,
+                    total: total,
+                    sucursal: "1"
+                },
+                type: 'POST',
+                success: function(response) {
+
+
+
+                }
+
+            });
             $('#idProducto').val("");
             $('#descripcion').val("");
             $('#precio').val("");
             $('#cantidad').val("");
+            traerDetalleOrden($('#orden').val())
             totalizar();
 
         }
 
     }
 
+
+
     setInterval(function() {
         traerOrdenes();
+
     }, 1000 * 1);
 
     //
     //para eliminar item de orden
-    $(document).on('click', '#eliminandoItem', (e) => {
-        if (confirm("SE QUITARA EL PRODUCTO\nDESEA CONTINUAR?")) {
-            const element = $(this)[0].activeElement.parentElement.parentElement;
-            const id = $(element).attr('idFila');
 
-            var producto = id;
-            var orden = $('#orden').val();
+    $(document).on('click', '#eliminandoDetalle', (e) => {
+        e.preventDefault();
 
-            $.post('../../controller/ordenes/eliminarItemOrden.php', {
-                producto,
-                orden
-            }, (response) => {
+        const element = $(this)[0].activeElement.parentElement.parentElement;
+        const producto = $(element).attr('idFila');
 
-                try {
-                    traerDetalleOrden();
-                } catch (error) {
+        var orden = $('#orden').val();
 
-                }
+        $.post('../../controller/ordenes/eliminarItemOrden.php', {
+            producto,
+            orden
+        }, (response) => {
+
+            try {
+                traerDetalleOrden(orden);
+            } catch (error) {
+
+            }
 
 
-            });
-        }
+        });
+
+
     });
+    $(document).on('click', '#eliminandoDetalleSinOrden', function(event) {
+        event.preventDefault();
+
+        $(this).closest('tr').remove();
+
+
+    });
+
+
     //para borrar orden
     $(document).on('click', '#eliminando', (e) => {
-        if (confirm("SE ELIMINARA LA ORDEN COMPLETAMENTE\nDESEA CONTINUAR?")) {
+        const element = $(this)[0].activeElement.parentElement.parentElement;
+        const id = $(element).attr('idEditarOrden');
+
+        var orden = id;
+
+        $.post('../../controller/ordenes/eliminarOrden.php', {
+            orden
+        }, (response) => {
+
+            traerOrdenes();
+            location.reload();
 
 
-            const element = $(this)[0].activeElement.parentElement.parentElement;
-            const id = $(element).attr('idEditarOrden');
+        });
 
-            var orden = id;
-
-            $.post('../../controller/ordenes/eliminarOrden.php', {
-                orden
-            }, (response) => {
-
-                traerOrdenes();
-
-
-            });
-        }
     });
 
     //btn agregar
@@ -332,6 +414,8 @@ $(document).ready(function() {
 
     function correlativo() {
 
+
+
         var documento = $("#documento option:selected").val();
         $.post('../../controller/documentos/traerCorrelativoFactura.php', {
             documento
@@ -354,38 +438,17 @@ $(document).ready(function() {
     //para traer correlativo
     $(document).on('change', '#documento', function(event) {
         correlativo();
+        CambiarPrecio();
+
+
+
+
     });
 
 
     //llenar select documentps
     function llenarDocumentos() {
-        $.ajax({
-            url: '../../controller/documentos/buscarDocumentosNombre.php',
-            type: 'GET',
-            success: function(response) {
-
-                if (JSON.parse(response).length < 1) {
-                    let template = '';
-                    template += `
-                   <option value="0">NO HAY DOCUEMENTOS </option>
-                  `
-                    $('#documento').html(template);
-
-
-                } else {
-                    const lista = JSON.parse(response);
-                    let template = '';
-                    lista.forEach(listar => {
-                        template += `
-                   <option value="${listar.documento}">${listar.nombre}</option>
-                  `
-                    });
-                    $('#documento').html(template);
-                    correlativo();
-                }
-
-            }
-        });
+        correlativo();
     }
 
 

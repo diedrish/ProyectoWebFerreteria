@@ -114,60 +114,60 @@ $(document).ready(function() {
                 alert("DEBE AGREGAR PRODUCTOS A LA ORDEN");
 
             } else {
-                if (confirm("SE GUARDARA LA PREFACTURA Y SE ENVIARA A CAJA\nDESEA CONTINUAR?")) {
-                    var u = "../../controller/ordenes/crearOrden.php";
-                    traerOrdenActual();
 
-                    $.ajax({
-                        url: u,
-                        data: {
-                            orden: $('#orden').val(),
-                            nombre: $('#nombre').val(),
-                            sucursal: "1",
-                            total: $('#totalFinal').val()
-                        },
-                        type: 'POST',
-                        success: function(response) {
-                            var msj = new String(response).valueOf().trim();
+                var u = "../../controller/ordenes/crearOrden.php";
+                traerOrdenActual();
 
-                            if (msj === "true") {
-                                var filas = document.getElementById('tbDetalle').rows.length;
+                $.ajax({
+                    url: u,
+                    data: {
+                        orden: $('#orden').val(),
+                        nombre: $('#nombre').val(),
+                        sucursal: "1",
+                        total: $('#totalFinal').val()
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        var msj = new String(response).valueOf().trim();
 
-                                //se creo el encabezado asi que guardo el detalle
-                                for (var i = 0; i < filas; i++) {
-                                    var u = "../../controller/ordenes/crearDetalleOrden.php";
+                        if (msj === "true") {
+                            var filas = document.getElementById('tbDetalle').rows.length;
 
-                                    $.ajax({
-                                        url: u,
-                                        data: {
-                                            orden: $('#orden').val(),
-                                            producto: document.getElementById('tbDetalle').rows[i].cells[0].innerHTML,
-                                            precio: document.getElementById('tbDetalle').rows[i].cells[2].innerHTML,
-                                            cantidad: document.getElementById('tbDetalle').rows[i].cells[3].innerHTML,
-                                            total: document.getElementById('tbDetalle').rows[i].cells[4].innerHTML,
-                                            sucursal: "1"
-                                        },
-                                        type: 'POST',
-                                        success: function(response) {
+                            //se creo el encabezado asi que guardo el detalle
+                            for (var i = 0; i < filas; i++) {
+                                var u = "../../controller/ordenes/crearDetalleOrden.php";
 
-
-
-                                        }
-
-                                    });
-                                }
-
-                                alert("ENVIADO EXITOSAMENTE");
-                                location.reload();
-                            } else {
-                                alert("NO SE PUDO ENVIAR")
+                                $.ajax({
+                                    url: u,
+                                    data: {
+                                        orden: $('#orden').val(),
+                                        producto: document.getElementById('tbDetalle').rows[i].cells[0].innerHTML,
+                                        precio: document.getElementById('tbDetalle').rows[i].cells[2].innerHTML,
+                                        cantidad: document.getElementById('tbDetalle').rows[i].cells[3].innerHTML,
+                                        total: document.getElementById('tbDetalle').rows[i].cells[4].innerHTML,
+                                        sucursal: "1"
+                                    },
+                                    type: 'POST',
+                                    success: function(response) {
 
 
+
+                                    }
+
+                                });
                             }
 
+
+                            location.reload();
+                        } else {
+
+
+
                         }
-                    });
-                }
+
+                    }
+                });
+
 
             }
 
@@ -209,12 +209,11 @@ $(document).ready(function() {
 
     //btn cancelar
     $('#btnCancelar').click(function() {
-        if (confirm("LOS DATOS ACTUALES NO SE GUARDARAN\nDESEA CONTINUAR?")) {
-            $('#orden-form').trigger('reset');
-            edit = false;
+        $('#orden-form').trigger('reset');
+        edit = false;
 
 
-        }
+
     });
 
 

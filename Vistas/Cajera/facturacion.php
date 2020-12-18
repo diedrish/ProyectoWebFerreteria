@@ -24,8 +24,6 @@
     .table-wrapper-scroll-y {
         display: block;
     }
-
-    
     </style>
 
     <title></title>
@@ -67,7 +65,6 @@
                 <table class="table table-bordered table-striped mb-0 col-sm-12 ">
                     <thead>
                         <tr>
-                            
                             <td style="width=300px;">Cliente</td>
                             <td>Total</td>
                         </tr>
@@ -81,27 +78,33 @@
                     <div class="row">
                         <div class="form-group col-md-1 ">
                             <label for="orden">ID</label>
-                            <input type="text" name="orden" id="orden" class="form-control form-control-sm" readonly autocomplete="off">
+                            <input type="text" name="orden" id="orden" class="form-control form-control-sm" readonly
+                                autocomplete="off">
 
                         </div>
 
                         <div class="form-group col-md-2 ">
                             <label for="documento">DOC</label>
                             <select name="documento" id="documento" class="form-control form-control-sm">
-
+                               <option value="0">SELECCIONE</option>
+                               <option value="TICKET">TICKET</option>
+                               <option value="CF">CONSUMIDOR FINAL</option>
+                               <option value="CCF">CREDITO FISCAL</option>
                             </select>
                         </div>
 
                         <div class="form-group col-md-2 ">
                             <label for="numDoc"># DOC</label>
-                            <input type="text" name="numDoc" id="numDoc" class="form-control form-control-sm" autocomplete="off">
+                            <input type="text" name="numDoc" id="numDoc" class="form-control form-control-sm"
+                                autocomplete="off">
 
                         </div>
 
                         <div class="form-group col-md-2 ">
                             <label for="nrc">NRC</label>
 
-                            <input type="text" name="nrc" id="nrc" class="form-control form-control-sm" autocomplete="off">
+                            <input type="text" name="nrc" id="nrc" class="form-control form-control-sm"
+                                autocomplete="off">
 
 
                         </div>
@@ -115,7 +118,8 @@
                         <div class="form-group col-md-3 ">
                             <label for="nit">Nit</label>
 
-                            <input type="text" name="nit" id="nit" class="form-control form-control-sm" readonly autocomplete="off">
+                            <input type="text" name="nit" id="nit" class="form-control form-control-sm" readonly
+                                autocomplete="off">
 
                         </div>
 
@@ -127,13 +131,15 @@
                         <div class="form-group col-md-3 ">
                             <label for="tipoFactura">Tipo Factura</label>
                             <select name="tipoFactura" id="tipoFactura" class="form-control form-control-sm">
-                                <option value="0">SELECCIONE</option>
+
                                 <option value="CONTADO">VENTA AL CONTADO</option>
                                 <option value="CREDITO">VENTA AL CREDITO</option>
 
                             </select>
                         </div>
-                        <div class="form-group col-md-9 ">
+
+
+                        <div class="form-group col-md-7 ">
                             <label for="cliente">CLIENTE</label>
 
                             <input type="text" name="cliente" id="cliente" readonly class="form-control form-control-sm"
@@ -147,7 +153,8 @@
                             <label for="giro">Giro</label>
 
 
-                            <input type="text" name="giro" id="giro" class="form-control form-control-sm"readonly autocomplete="off">
+                            <input type="text" name="giro" id="giro" class="form-control form-control-sm" readonly
+                                autocomplete="off">
 
                         </div>
                     </div>
@@ -159,7 +166,7 @@
                         <div class="form-group col-md-2 ">
                             <label for="codigo">CODIGO</label>
                             <input type="text" name="idProducto" id="idProducto" placeholder="Codigo  Producto"
-                            class="form-control form-control-sm" autocomplete="off">
+                                class="form-control form-control-sm" autocomplete="off">
                         </div>
 
                         <div class=" form-group col-md-1">
@@ -173,20 +180,19 @@
                         <div class="form-group col-md-4 ">
                             <label for="descripcion">Descripcion</label>
                             <input type="text" name="descripcion" id="descripcion" placeholder="Nombre del Producto"
-                            class="form-control form-control-sm" required autocomplete="off" readonly>
+                                class="form-control form-control-sm" required autocomplete="off" readonly>
                         </div>
 
                         <div class="form-group col-md-2 ">
                             <label for="precio">PRECIO</label>
                             <input type="text" name="precio" readonly id="precio" placeholder="precio"
-                            class="form-control form-control-sm" autocomplete="off">
+                                class="form-control form-control-sm" autocomplete="off">
                         </div>
 
                         <div class="form-group col-md-2 ">
                             <label for="cantidad">CANTIDAD</label>
                             <input type="number" name="cantidad" id="cantidad" placeholder="cantidad"
-                            class="form-control form-control-sm" autocomplete="off"  min="1"
-                                pattern="^[0-9]+">
+                                class="form-control form-control-sm" autocomplete="off" min="1" pattern="^[0-9]+">
                         </div>
 
                         <div class=" form-group col-md-1">
@@ -218,23 +224,27 @@
                         </div>
 
                         <div class="form-group col-md-2 ">
-                            <label  for="sumas">SUMAS</label>
-                            <input type="text" name="sumas" id="sumas" class="form-control form-control-sm" autocomplete="off" readonly>
+                            <label for="sumas">SUMAS</label>
+                            <input type="text" name="sumas" id="sumas" class="form-control form-control-sm"
+                                autocomplete="off" readonly>
                             <label for="iva">IVA</label>
-                            <input type="text" name="iva" id="iva" class="form-control form-control-sm" autocomplete="off" readonly>
+                            <input type="text" name="iva" id="iva" class="form-control form-control-sm"
+                                autocomplete="off" readonly>
                             <label for="subtotal">SUBTOTAL</label>
-                            <input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm" autocomplete="off"
-                                readonly> <label for="retencion">Retencion</label>
-                            <input type="text" name="retencion" id="retencion" class="form-control form-control-sm" autocomplete="off" readonly>
+                            <input type="text" name="subtotal" id="subtotal" class="form-control form-control-sm"
+                                autocomplete="off" readonly> <label for="retencion">Retencion</label>
+                            <input type="text" name="retencion" id="retencion" class="form-control form-control-sm"
+                                autocomplete="off" readonly>
                             <label for="totalfinal">TOTAL FINAL</label>
-                            <input type="text" name="totalfinal" id="totalfinal"
-                                class="form-control form-control-sm" autocomplete="off"  readonly></div>
+                            <input type="text" name="totalfinal" id="totalfinal" class="form-control form-control-sm"
+                                autocomplete="off" readonly>
+                        </div>
 
 
 
                     </div>
 
-                    <div class="row" >
+                    <div class="row">
                         <div class="col-md-12 justify-content-center d-flex">
                             <button type="button" id="btnGuardar" class="btn btn-primary btn-lg active text-center">
                                 Generar Factura

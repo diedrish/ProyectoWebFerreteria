@@ -7,7 +7,7 @@ $correlativo="";
 $serie=$_POST["serie"];
 $desde=$_POST["desde"];
 $hasta=$_POST["hasta"];
-$actual="0";
+$actual=$desde-1;
 
 date_default_timezone_set("AMERICA/El_Salvador");
 
@@ -20,9 +20,9 @@ date_default_timezone_set("AMERICA/El_Salvador");
         
             if ($filas > 0) {
                 //
-                             while($row = mysqli_fetch_array($result)) {
-                             $correlativo= $row['idCorrelativo'];
-                           }
+                while($row = mysqli_fetch_array($result)) {
+                $correlativo= $row['idCorrelativo'];
+                }
 
 
                //si hay una serie asi que comprobamos que no se halla agregado
@@ -44,10 +44,10 @@ date_default_timezone_set("AMERICA/El_Salvador");
                 include '../conexion/database.php';
 
                 $query = "call crearCorrelativosCajas('$correlativo','$caja','$desde','$hasta','$actual','ACTIVO','$doc','$sucursal')";
-                echo 
+                
         
                 $result = mysqli_query($connection, $query);
-        echo $query;
+        
                 if (!$result) {
                     echo "CORRELATIVOS NO AGREGADOS";
         

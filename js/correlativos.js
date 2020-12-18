@@ -1,6 +1,5 @@
 $(document).ready(function() {
     llenarDocumentos();
-    llenarCajas();
 
     ///boton type submit para gaurdar
     $('#correlativosCajas-form').submit(e => {
@@ -10,7 +9,7 @@ $(document).ready(function() {
         var u = "";
         var mensaje = "";
 
-        u = "../../controller/Correlativos/crearCorrelativosCajas.php";
+        u = "../../controller/Correlativos/crearCorrelativos.php";
         mensaje = "SE GUARDAR EL CORRELATIVO\nDESEA CONTINUAR ?";
 
         if (confirm(mensaje)) {
@@ -74,71 +73,33 @@ $(document).ready(function() {
               `
                     });
                     $('#documento').html(template);
+                    listarCorrelativos();
 
                 }
 
             }
         });
     }
-    //llenar select
-    function llenarCajas() {
-        $.ajax({
-            url: '../../controller/documentos/traerCajasSucursal.php',
-            data: {
-                sucursal: "1"
-            },
-            type: 'POST',
-            success: function(response) {
-                if (JSON.parse(response).length < 1) {
-                    let template = '';
-                    template += `
-               <option value="0">NO HAY CAJAS </option>
-              `
-                    $('#caja').html(template);
-
-
-                } else {
-                    const lista = JSON.parse(response);
-                    let template = '';
-                    lista.forEach(listar => {
-                        template += `
-               <option value="${listar.caja}">${listar.caja}</option>
-              `
-                    });
-                    $('#caja').html(template);
-                    listarCorrelativosCajas();
-                }
-
-            }
-        });
-    }
-    //
     //para traer correlativo
-    $(document).on('change', '#caja', function(event) {
-            listarCorrelativosCajas();
+    $(document).on('change', '#documento', function(event) {
+            listarCorrelativos();
         })
         //para listar los correlativos por caja
-    function listarCorrelativosCajas() {
-        const sucursal = "1";
-
-        const caja = $("#caja option:selected").val();
-
-        $.post('../../controller/documentos/traerCorrelativosbyCajas.php', {
-            sucursal,
-            caja
+    function listarCorrelativos() {
+        const documento = $("#documento option:selected").val();
+        $.post('../../controller/correlativos/traerCorrelativos.php', {
+            documento
         }, (response) => {
             const lista = JSON.parse(response);
             let template = '';
             lista.forEach(listar => {
 
                 template += `
-                       <tr idEditar="${listar.caja}">
-                       <td >${listar.caja}</td>
+                       <tr idEditar="${listar.documento}">
                         <td >${listar.documento}</td>
                         <td>${listar.serie}</td>
                         <td>${listar.desde}</td>
                         <td>${listar.hasta}</td>
-                        <td>${listar.actual}</td>
                        </tr>
                       `
             });

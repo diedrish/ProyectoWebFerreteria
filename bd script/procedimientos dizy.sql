@@ -170,10 +170,25 @@ from correlativos as co,correlativoscajas as cocaja
  in desde int ,
  in hasta int,
  in actual int,
- in estado int,
+ in estado VARCHAR(50),
  in documento varchar(10),
  in sucursal int
  )insert into correlativoscajas values(null,correlativo,caja,desde,hasta,actual,estado,documento,sucursal);
+ 
+ create procedure traerCorrelativos(
+ in documento varchar(10)
+ )select * from correlativos where idDocumento=documento;
+ 
+ 
+ create procedure crearCorrelativos(
+ in documento varchar(10),
+ in serie varchar(100),
+ in desde int,
+ in hasta int,
+ in resolucion varchar(45),
+ in fecha varchar(45)
+ )insert into correlativos values(null,documento,serie,desde,hasta,resolucion,fecha);
+ 
  
  
  -- para proveedores 
@@ -299,11 +314,36 @@ in usuario int
  )delete  from detalleorden where idOrden=orden and fecha=fecha and idSucursal=sucursal;
  
  create procedure eliminarItemOrden(
- in prouducto varchar(25),
+ in producto varchar(25),
  in orden int,
  in fecha varchar(30),
  in sucursal int
  )delete from detalleorden where idOrden=orden and fecha=fecha and idSucursal=sucursal and idProducto=producto;
+ 
+ create procedure actualizarEstadoOrden(
+ in orden int,
+ in fe varchar(30),
+ in sucursal int,
+ in es varchar(30) 
+ )update orden set estado='FACTURADO' where idOrden=orden and fecha=fe and estado=es and idSucursal=sucursal;
+ 
+ create procedure actualizartotalorden(
+ in orden int,
+ in fe varchar(30),
+ in sucursal int,
+ in tot double
+ )update orden set total=tot where idOrden=orden and fecha=fe and estado=es and idSucursal=sucursal;
+ 
+ create procedure actualizarPrecioOrden(
+ in producto varchar(25),
+ in orden int,
+ in fecha varchar(30),
+ in sucursal int,
+ in pre double,
+ in can int,
+ in tot double
+ )update detalleorden set precio=pre,cantidad=can,total=tot 
+ where idOrden=orden and idProducto=producto and idSucursal=sucursal and fecha=fecha;
  
  
  -- clientes

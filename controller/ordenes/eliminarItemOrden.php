@@ -12,7 +12,7 @@ $fecha=$anio."-".$mes."-".$dia;
 
 
 include '../conexion/database.php';
-$query = "call eliminarDetalleOrden('$orden','$fecha','$sucursal')";
+$query = "call eliminarItemOrden('$producto','$orden','$fecha','$sucursal')";
 
 
 $result = mysqli_query($connection, $query);
