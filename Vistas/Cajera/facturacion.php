@@ -52,12 +52,13 @@
                         <img src="../../images/home.jpg" border="0" title="HOME" width="50" height="50">
                     </a>
                 </form>
-            </ul>
+            </ul> 
         </div>
     </nav>
 
     <div class="col-md-12">
         <label for="#">ORDENES EN ESPERA DE FACTURACION</label>
+         <label for="#" id="labelCorrelativo" name="labelCorrelativo"></label>
         <div class="row lg-12" style="padding: 10px;">
 
             <!-- TABLE  -->
@@ -86,7 +87,6 @@
                         <div class="form-group col-md-2 ">
                             <label for="documento">DOC</label>
                             <select name="documento" id="documento" class="form-control form-control-sm">
-                               <option value="0">SELECCIONE</option>
                                <option value="TICKET">TICKET</option>
                                <option value="CF">CONSUMIDOR FINAL</option>
                                <option value="CCF">CREDITO FISCAL</option>

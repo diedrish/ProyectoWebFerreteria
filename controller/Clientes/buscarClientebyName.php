@@ -15,8 +15,7 @@ while($row = mysqli_fetch_array($result)) {
  'id' => $row['idCliente'],
   'nombre' => $row['nombre'],
   'nit' => $row['nit'],
-  'nrc' => $row['nrc'],
-  'credito'=>$row['credito']
+  'nrc' => $row['nrc']
   );
 }
 $jsonstring=json_encode($json,JSON_UNESCAPED_UNICODE);

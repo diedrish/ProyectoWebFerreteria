@@ -34,8 +34,7 @@ $(document).ready(function() {
                     nrc: $('#nrc').val(),
                     direccion: $('#direccion').val(),
                     giro: $('#giro').val(),
-                    municipio: $('#municipio').val(),
-                    credito: $('#credito').val()
+                    municipio: $('#municipio').val()
 
                 },
                 type: 'POST',
@@ -197,6 +196,15 @@ $(document).ready(function() {
 
     });
 
+    //btn cancelar
+    $('#btnCancelar').click(function() {
+
+
+        location.reload();
+
+
+    });
+
     // Get a Single Task by Id 
     $(document).on('click', '#editando', (e) => {
         if (confirm("DESEA EDITAR EL CLIENTE?")) {
@@ -218,8 +226,6 @@ $(document).ready(function() {
                 $('#giro').val(task.giro);
                 $('#departamento').val(task.departamento);
                 $('#municipio').val(task.municipio);
-                $('#credito').val(task.credito);
-
 
                 edit = true;
                 idCliente = id;

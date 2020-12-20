@@ -13,7 +13,8 @@ $fecha=$anio."-".$mes."-".$dia;
 
 
 include '../conexion/database.php';
-$query = "call actualizartotalorden($orden','$fecha','$sucursal','$total')";
+$query = "call actualizartotalorden('$orden','$fecha','$sucursal','$total')";
+echo $query;
 
 $result = mysqli_query($connection, $query);
 

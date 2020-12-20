@@ -67,6 +67,22 @@ in imagen varchar(700)
  
  -- para movimientos
  
+ create procedure listarIngresoCompras(
+ in sucursal int
+ )select inc.numeroIngreso,inc.idProveedor,prov.nombre as proveedor,inc.tipoDocumento,inc.fechaCreacion,
+inc.estadoDocumento,inc.totalFactura,inc.numeroDocumento,inc.idSucursal
+from ingresosmercaderiacompras as inc,proveedores as prov where inc.idProveedor=prov.idProveedor
+ and inc.idSucursal=sucursal order by inc.fechaCreacion desc;
+ 
+ create procedure listarEgresos(
+ in sucursal int
+ )select mi.numeroIngreso,mi.fechaMovimiento,mi.estado,mi.destino,su.nombre as destino
+from sucursales as su,movimientosinventario as mi where mi.destino=su.idSucursal 
+and mi.idMovimiento=5  and mi.idSucursal=sucursal order by  mi.fechaMovimiento DESC ,mi.numeroIngreso ASC ;
+ 
+ 
+ 
+ 
  create procedure crearIngresoCompra(
 in id int ,
 in movimiento int,
@@ -276,9 +292,9 @@ where e.idSucursal=su.idSucursal  and e.idProducto=pro.idProducto and e.idProduc
 )insert into detalleorden values (null,orden,producto,precio,cantidad,total,fecha,sucursal);
 				
  create procedure buscarOrdenActual(
-in fecha varchar(30),
+in fe varchar(30),
 in  sucursal int
- )select * from orden where idSucursal=sucursal and fecha=fecha order by idOrden desc limit 1;
+ )select * from orden where idSucursal=sucursal and fecha=fe order by idOrden desc limit 1;
  
  
  create procedure buscarOrdenesPendientes(
@@ -295,11 +311,12 @@ in usuario int
  
  create procedure traerOrdenFactura(
  in orden int,
- in fecha varchar(30),
+ in fe varchar(30),
  in sucursal int
  )select det.*,pro.descripcion,o.nombre
  from productos as pro,detalleorden as 
- det,orden as o where o.idOrden=det.idOrden and det.idProducto=pro.idProducto and det.idOrden=orden and det.fecha=fecha;
+ det,orden as o where o.idOrden=det.idOrden and det.idProducto=pro.idProducto
+ and det.idOrden=orden and  o.fecha=fe and det.fecha=fe ;
  
  create procedure eliminarOrden(
  in orden int,
@@ -332,7 +349,14 @@ in usuario int
  in fe varchar(30),
  in sucursal int,
  in tot double
- )update orden set total=tot where idOrden=orden and fecha=fe and estado=es and idSucursal=sucursal;
+ )update orden set total=tot where idOrden=orden and fecha=fe  and idSucursal=sucursal;
+ 
+  create procedure FacturarOrdenEstado(
+ in orden int,
+ in fe varchar(30),
+ in sucursal int
+ )update orden set estado='FACTURADO' where idOrden=orden and fecha=fe  and idSucursal=sucursal;
+ 
  
  create procedure actualizarPrecioOrden(
  in producto varchar(25),
@@ -354,9 +378,8 @@ in nit varchar(50),
 in nrc varchar(50),
 in direccion varchar(1500),
 in giro varchar(200),
-in municipio int,
-in credito varchar(30)
-)insert into clientes values(null,nombre,tipo,nit,nrc,direccion,giro,municipio,credito);
+in municipio int
+)insert into clientes values(null,nombre,tipo,nit,nrc,direccion,giro,municipio);
 
 
 create procedure crearCuentaporCobrar(
@@ -372,11 +395,10 @@ in nitCliente varchar(50),
 in nrcCliente varchar(50),
 in direccionCliente varchar(1500),
 in giroCliente varchar(200),
-in municipioCliente int,
-in credito varchar(30)
+in municipioCliente int
 )
 update clientes set nombre=nombreCliente,tipoEmpresa=tipoCliente,
-nit=nitCliente,nrc=nrcCliente,direccion=direccionCliente,giro=giroCliente,idMunicipio=municipioCliente,credito=credito
+nit=nitCliente,nrc=nrcCliente,direccion=direccionCliente,giro=giroCliente,idMunicipio=municipioCliente
  where idCliente=id;
  
 create procedure buscarCliente(
@@ -392,7 +414,7 @@ in nrcEmpresa varchar(50)
 
 create procedure buscarClientebyId(
 in id int
-)select cli.idCliente,cli.nombre as nombreempresa,cli.tipoEmpresa,cli.credito,cli.nit,cli.nrc,cli.direccion,cli.giro,cli.idMunicipio,dpt.*
+)select cli.idCliente,cli.nombre as nombreempresa,cli.tipoEmpresa,cli.nit,cli.nrc,cli.direccion,cli.giro,cli.idMunicipio,dpt.*
 from departamentos as dpt ,clientes as cli ,municipio as mu where
  cli.idMunicipio=mu.idMunicipio and mu.idDepartamento=dpt.idDepartamento and cli.idCliente=id;
 
@@ -419,7 +441,33 @@ in idDpt int
  in sucursal int,
  in caja int,
  in documento varchar(10)
- )select (actual +1)as actual from correlativoscajas where idSucursal=sucursal and idNumCaja=caja and idDocumento=documento;
+ )select (actual +1)as actual,idCorrelativo
+ from correlativoscajas where idSucursal=sucursal
+ and idNumCaja=caja and idDocumento=documento and estado='ACTIVO' order by linea asc;
+ 
+ create procedure crearFactura(
+in correlativo int,
+in documento varchar(10),
+in numerodoc int,
+in cliente varchar(200),
+in nrc varchar(50),
+in nit varchar(50),
+in giro varchar(700),
+in tipoFactura varchar(100),
+in sumas double,
+in iva double,
+in subtotal double,
+in retencion double,
+in totalFinal double,
+in idOrden int,
+in fechaFactura varchar(30),
+in estado varchar(50),
+in idEmpleado int,
+in idSucursal int
+ )insert into facturacion values(null,correlativo,documento,numerodoc,cliente,nrc,nit,giro,tipoFactura,sumas,iva,subtotal,
+ retencion,totalFinal,idOrden,fechaFactura,estado,idEmpleado,idSucursal);
+
+ 
  
  
  

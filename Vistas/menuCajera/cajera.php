@@ -21,7 +21,7 @@
         border-collapse: separate;
         border-spacing: 10px 5px;
     }
-   
+
     .table-wrapper-scroll-y {
         display: block;
     }
@@ -31,7 +31,6 @@
 </head>
 
 <body>
-
 
 
     <!-- NAVIGATION  -->
@@ -58,21 +57,23 @@
 
             <tr>
                 <td>
-                    <section style="border:solid;
+                    <center>
+                        <section style="border:solid;
     padding: 10px;">
-                        <center><img class="img" src="../../images/iconos/users.png" width="50" height="50"><br><br>
-                        </center>
-                        <center> <input type="button" name="perfil" width="50" value="Gestion Clientes"
-                                class="boton btn btn-info" onclick="location.href='../clientes/clientes.php'" ></center>
-                    </section>
+                            <center> <img class="img" src="../../images/iconos/existencia.png" width="50"
+                                    height="50"><br><br></center>
+                            <center> <input type="button" name="perfil" width="50" value="    Existencias     "
+                                    class="boton btn btn-info" onclick="location.href='../existencias/existencias.php'">
+                            </center>
+                        </section>
+                    </center>
                 </td>
-
                 <td>
                     <section style="border:solid;
     padding: 10px;">
                         <center><img class="img" src="../../images/iconos/prefactura.png" width="50"
                                 height="50"><br><br></center>
-                        <center> <input type="button" name="perfil" width="50" value="Prefacturar"
+                        <center> <input type="button" name="perfil" width="50" value="       Ordenes      "
                                 class="boton btn btn-info" onclick="location.href='../ordenes/orden.php'"></center>
                     </section>
                 </td>
@@ -81,13 +82,25 @@
     padding: 10px;">
                         <center><img class="img" src="../../images/iconos/factura.png" width="50" height="50"><br><br>
                         </center>
-                        <center> <input type="button" name="perfil" width="50" value="Facturar"
+                        <center> <input type="button" name="perfil" width="50" value="     Facturacion    "
                                 class="boton btn btn-info" onclick="location.href='../Cajera/facturacion.php'"></center>
                     </section>
                 </td>
 
             </tr>
+            <tr>
 
+                <td>
+                    <section style="border:solid;
+padding: 10px;">
+                        <center><img class="img" src="../../images/iconos/users.png" width="50" height="50"><br><br>
+                        </center>
+                        <center> <input type="button" name="perfil" width="50" value="  Gestion Clientes  "
+                                class="boton btn btn-info" onclick="location.href='../clientes/clientes.php'"></center>
+                    </section>
+                </td>
+
+            </tr>
         </table>
 
     </div>

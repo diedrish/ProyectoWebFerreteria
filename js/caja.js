@@ -2,6 +2,8 @@ $(document).ready(function() {
 
     // Global Settings
     edit = false;
+    $('#nrc').val("");
+    $('#nrc').prop('disabled', true);
     traerOrdenes();
     llenarDocumentos();
 
@@ -31,6 +33,7 @@ $(document).ready(function() {
             });
             $('#tbDetalle').html(template);
 
+            totalizar();
 
         });
 
@@ -70,25 +73,56 @@ $(document).ready(function() {
 
     //btn guardar
     $('#btnGuardar').click(function() {
+        u = "../../controller/Facturacion/crearFactura.php";
+        $.ajax({
+
+            url: u,
+            data: {
+                orden: $('#orden').val(),
+                correlativo: $('#labelCorrelativo').val(),
+                documento: $('#documento').val(),
+                numerodoc: $('#numDoc').val(),
+                cliente: $('#cliente').val(),
+                nit: $('#nit').val(),
+                nrc: $('#nrc').val(),
+                giro: $('#giro').val(),
+                tipoFactura: $('#tipoFactura').val(),
+                sumas: $('#sumas').val(),
+                iva: $('#iva').val(),
+                subtotal: $('#subtotal').val(),
+                retencion: $('#retencion').val(),
+                totalFinal: $('#totalfinal').val()
+
+            },
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+
+            }
+
+
+        });
 
 
 
 
     });
-
+    //
     function CambiarPrecio() {
         try {
             var filas = document.getElementById('tbDetalle').rows.length;
 
             var orden = $('#orden').val();
-            let precio = 0.00;
-            let total = 0.00;
-            let cantidad = 0;
+
+
             for (var i = 0; i < filas; i++) {
+                let cantidad = 0;
                 let id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
+                let precio = 0.00;
+                let total = 0.00;
                 precio = 0.00;
                 total = 0.00;
-                cantidad = 0;
+
                 cantidad = (document.getElementById('tbDetalle').rows[i].cells[3].innerHTML);
 
                 $.post('../../controller/Productos/listarProductobyId.php', {
@@ -105,7 +139,7 @@ $(document).ready(function() {
                         precio = Number(task.precio);
                     }
                     total = Number(precio * cantidad).toFixed(2);
-                    console.log(id);
+
                     $.post('../../controller/ordenes/actualizarPrecioDetalleOrden.php', {
                         id,
                         orden,
@@ -135,50 +169,68 @@ $(document).ready(function() {
 
         try {
             var filas = document.getElementById('tbDetalle').rows.length;
-            let total = 0.00;
+
             let sumas = 0.00;
             let iva = 0.00;
             let subtotal = 0.00;
             let retencion = 0.00;
             for (var i = 0; i < filas; i++) {
 
-                var totalfila = (document.getElementById('tbDetalle').rows[i].cells[4].innerHTML);
-                total = ((Number(totalfila)) + (Number(total))).toFixed(2);
 
-                var cantidad = (document.getElementById('tbDetalle').rows[i].cells[3].innerHTML);
+
+                let cantidad = (document.getElementById('tbDetalle').rows[i].cells[3].innerHTML);
                 //para traer  precio
                 const id = (document.getElementById('tbDetalle').rows[i].cells[0].innerHTML);
                 const documento = $('#documento').val();
-                if (documento === "CCF") {
 
-                    $.post('../../controller/Productos/listarProductobyId.php', {
-                        id
+
+                $.post('../../controller/Productos/listarProductobyId.php', {
+                    id
+                }, (response) => {
+                    const task = JSON.parse(response);
+                    var precioconiva = Number(task.precio);
+                    var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
+                    if (documento === "CCF") {
+                        iva = ((Number(precioconiva - preciosiniva) * Number(cantidad)) + Number(iva)).toFixed(2);
+                        sumas = ((Number(cantidad) * Number(preciosiniva)) + Number(sumas)).toFixed(2);;
+                        subtotal = (Number(sumas) + Number(iva));
+
+                    } else {
+                        iva = 0.00;
+                        sumas = (Number(cantidad) * Number(precioconiva) + Number(sumas)).toFixed(2);
+                        subtotal = Number(sumas).toFixed(2);
+
+                    }
+
+                    $('#sumas').val(sumas);
+                    $('#iva').val(iva);
+                    $('#subtotal').val(subtotal);
+                    $('#retencion').val(retencion);
+                    $('#totalfinal').val(((Number(subtotal) - Number(retencion))).toFixed(2));
+
+                    ///actualizo total orden
+                    var orden = $('#orden').val();
+                    var totalOrden = $('#totalfinal').val();
+                    $.post('../../controller/ordenes/actualizarTotalOrden.php', {
+                        orden,
+                        totalOrden
                     }, (response) => {
 
-                        const task = JSON.parse(response);
-                        var precioconiva = Number(task.precio);
-                        var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
-                        iva = (Number(((precioconiva - preciosiniva) * cantidad).toFixed(2)) + Number(iva)).toFixed(2);
-                        sumas = (Number(((preciosiniva) * cantidad) + sumas)).toFixed(2);
-                        subtotal = (Number(sumas) + Number(iva));
-                        $('#sumas').val(sumas);
-                        $('#iva').val(iva);
-                        $('#subtotal').val(subtotal);
-                        $('#retencion').val(retencion);
-                        $('#totalfinal').val(((Number(subtotal) - Number(retencion))).toFixed(2));
+                        traerOrdenes();
+
+
                     });
-                } else {
 
 
-                }
-
-
+                });
 
                 //fin 
             }
 
 
-            $('#totalFinal').val(total);
+
+
+
         } catch (error) {
             $('#totalFinal').val("0.00");
         }
@@ -206,7 +258,6 @@ $(document).ready(function() {
         $('#orden').val(id);
         traerDetalleOrden(id);
         CambiarPrecio();
-        totalizar();
 
     });
     //
@@ -257,8 +308,7 @@ $(document).ready(function() {
             $('#descripcion').val("");
             $('#precio').val("");
             $('#cantidad').val("");
-            traerDetalleOrden($('#orden').val())
-            totalizar();
+
 
         }
 
@@ -344,6 +394,9 @@ $(document).ready(function() {
             $('#cantidad').val("");
         } else {
             agregarFilas();
+            traerDetalleOrden($('#orden').val());
+            CambiarPrecio();
+            totalizar();
         }
 
 
@@ -363,11 +416,12 @@ $(document).ready(function() {
                 const task = JSON.parse(response);
 
                 $('#descripcion').val(task.nombre);
-                var precioconiva = Number(task.precio);
+
+                var preciosiniva = 0.00;
                 const documento = $('#documento').val();
 
                 if (documento === "CCF") {
-                    var preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
+                    preciosiniva = (Number(task.precio) / 1.13).toFixed(2);
 
                     $('#precio').val(preciosiniva);
                 } else {
@@ -401,7 +455,7 @@ $(document).ready(function() {
                 $('#nrc').val(task.nrc);
                 $('#giro').val(task.giro);
             } catch (error) {
-                alert("NO EXISTE UN CLIENTE CON ESE NRC");
+
 
             }
 
@@ -425,9 +479,11 @@ $(document).ready(function() {
                 const task = JSON.parse(response);
 
                 $('#numDoc').val(task.actual);
+                $('#labelCorrelativo').val(task.correlativo);
 
             } catch (error) {
 
+                $('#labelCorrelativo').val("");
                 $('#numDoc').val("");
             }
 
@@ -439,6 +495,20 @@ $(document).ready(function() {
     $(document).on('change', '#documento', function(event) {
         correlativo();
         CambiarPrecio();
+        const documento = $('#documento').val();
+
+        if (documento === "CCF") {
+
+            $('#nrc').val("");
+            $('#nrc').prop('disabled', false);
+
+
+        } else {
+
+            $('#nrc').val("");
+            $('#nrc').prop('disabled', true);
+
+        }
 
 
 

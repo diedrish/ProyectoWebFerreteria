@@ -9,7 +9,6 @@ $nrc =$_POST["nrc"];
 $direccion =$_POST["direccion"];
 $giro =$_POST["giro"];
 $municipio =$_POST["municipio"];
-$credito =$_POST["credito"];
 date_default_timezone_set("AMERICA/El_Salvador");
 $anio = date("Y");
 $mes = date("m");
@@ -17,7 +16,7 @@ $dia = date("d");
 $fecha=$anio."-".$mes."-".$dia;
 
 
-        $query = "call actualizarCliente('$id','$nombre','$empresa','$nit','$nrc','$direccion','$giro','$municipio','$credito')";
+        $query = "call actualizarCliente('$id','$nombre','$empresa','$nit','$nrc','$direccion','$giro','$municipio')";
         
         $result = mysqli_query($connection, $query);
 
@@ -26,31 +25,7 @@ $fecha=$anio."-".$mes."-".$dia;
 
         } else {
             echo "CLIENTE ACTUALIZADO";
-            if($credito==="SI"){
-
-                include '../conexion/database.php';
-
-                $query = "call buscarClienteCuentaporCobrar('{$id}')";
             
-                $result = mysqli_query($connection, $query);
-                $filas = mysqli_num_rows($result);
-            
-                if ($filas > 0) {
-                    
-            
-                } else {
-                   
-                    include '../conexion/database.php'; 
-                    
-                    $query = "call crearCuentaporCobrar('$id','$fecha')";
-                    $result = mysqli_query($connection, $query);
-            
-            
-
-
-                }
-
-               }
 
         }
 

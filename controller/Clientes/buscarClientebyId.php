@@ -23,8 +23,7 @@ if(isset($_POST['id'])) {
       'direccion' => $row['direccion'],
       'giro' => $row['giro'],
       'departamento' => $row['idDepartamento'],
-      'municipio' => $row['idMunicipio'],
-      'credito'=>$row['credito']
+      'municipio' => $row['idMunicipio']
 
 
     );

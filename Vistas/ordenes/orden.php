@@ -119,7 +119,7 @@
                         <div class="form-group col-md-10 ">
 
                             <input type="text" name="nombre" required id="nombre" placeholder="Nombre de Cliente"
-                                class="form-control" autocomplete="off">
+                                class="form-control" required autocomplete="off">
                         </div>
 
                     </div>

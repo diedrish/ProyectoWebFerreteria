@@ -159,7 +159,6 @@ CREATE TABLE clientes (
   direccion varchar(1500) DEFAULT NULL,
   giro varchar(200) DEFAULT NULL,
   idMunicipio int(11) DEFAULT NULL,
-  credito varchar(30) ,
 PRIMARY KEY (idCliente),
 FOREIGN KEY (idMunicipio) REFERENCES municipio (idMunicipio) 
 ) ;
@@ -231,24 +230,22 @@ foreign key(idDocumento)references tipodocumentos(idDocumento)
 );
 
 create table cuentasporCobrar(
-linea int auto_increment,
-idCliente int,
+idCliente int ,
+dui varchar(100),
+nit varchar(100),
 fechaCreacion varchar(30),
 saldo double,
-primary key(linea),
-foreign key(idCliente)references clientes(idCliente)
+primary key(idCliente)
 );
 
 create table detalleCuentasporCobrar(
 lineaDetalle int auto_increment,
-linea int,
 idCliente int,
 fechaMovimiento varchar(30),
 debe double,
 haber double,
 primary key(lineaDetalle),
-foreign key(linea)references cuentasporCobrar(linea),
-foreign key(idCliente)references clientes(idCliente)
+foreign key(idCliente)references cuentasporcobrar(idCliente)
 );
 
 
@@ -285,6 +282,37 @@ foreign key(idProducto)references productos(idProducto),
 foreign key(idMovimiento)references movimientos(idMovimiento),
 foreign key(idSucursal)references sucursales(idSucursal)
 );
+
+
+create table facturacion(
+idFactura int auto_increment,
+idCorrelativo int,
+idDocumento varchar(10),
+numeroDocumento int,
+cliente varchar(200),
+nrc varchar(50),
+nit varchar(50),
+giro varchar(700),
+tipoFactura varchar(100),
+sumas double,
+iva double,
+subtotal double,
+retencion double,
+totalFinal double,
+idOrden int,
+fechaFactura varchar(30),
+estado varchar(50),
+idEmpleado int,
+idSucursal int,
+primary key(idFactura),
+foreign key(idSucursal)references sucursales (idSucursal),
+foreign key(idDocumento)references tipodocumentos(idDocumento),
+foreign key (idOrden)references orden (idOrden)
+);
+
+
+
+
 
 
 

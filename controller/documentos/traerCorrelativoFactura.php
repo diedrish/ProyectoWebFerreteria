@@ -15,7 +15,9 @@ include '../conexion/database.php';
   $json = array();
   while($row = mysqli_fetch_array($result)) {
     $json[] = array(
-        'actual' => $row['actual']
+        'actual' => $row['actual'],
+        'correlativo' => $row['idCorrelativo'],
+
         
     );
   }

@@ -22,7 +22,7 @@
 
     <!-- NAVIGATION  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Gestion de Clientes</a>
+        <a class="navbar-brand" href="#">Gestion de Clientes Crediticios</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -49,28 +49,18 @@
                         <!-- FORM TO ADD TASKS -->
                         <form id="clientes-form" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="empresa">Seleccione Tipo Empresa</label>
-                                <select name="empresa" id="empresa" class="custom-select">
-                                    <option value="GRANDE">GRANDE</option>
-                                    <option value="MEDIANA">MEDIANA</option>
-                                    <option value="PEQUEÑA">PEQUEÑA</option>
-                                    <option value="MICRO">MICRO</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" name="nombre" id="nombre" placeholder="Nombre Empresa"
+                                <input type="text" name="nombre" id="nombre" placeholder="Nombre Cliente"
                                     maxlength="200" class="form-control" autocomplete="off" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="nit" id="nit" placeholder="Nit" class="form-control"
+                                <input type="text" name="dui" id="dui" placeholder="DUI" class="form-control"
                                     autocomplete="off" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="nrc" id="nrc" placeholder="Nrc" class="form-control"
+                                <input type="text" name="nit" id="nit" placeholder="NIT" class="form-control"
                                     autocomplete="off" required>
                             </div>
-
+                         
                             <div class="form-group">
                                 <label for="departamento">Seleccione Departamento</label>
                                 <select name="departamento"  id="departamento" class="custom-select">
@@ -86,12 +76,7 @@
                                 ​<textarea id="direccion" name="direccion" rows="5" cols="50"
                                     placeholder="Direccion del Cliente" autocomplete="off" maxlength="1500"
                                     required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="giro" id="giro" placeholder="Giro" class="form-control"
-                                    autocomplete="off" required>
-                            </div>
-                           
+                            </div>  
                             <center>
                                 <div class="col-md-12">
                                     <button type="submit" 
@@ -116,8 +101,8 @@
                         <tr>
                             <td>Id</td>
                             <td>Nombre</td>
+                            <td>Dui</td>
                             <td>Nit</td>
-                            <td>Nrc</td>
                         </tr>
                     </thead>
                     <tbody id="tbClientes">
@@ -130,7 +115,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- Frontend Logic -->
-    <script src="../../js/clientes.js"></script>
+    <script src="../../js/clientesCreditos.js"></script>
 </body>
 
 </html>

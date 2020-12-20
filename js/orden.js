@@ -191,7 +191,13 @@ $(document).ready(function() {
                 total = ((Number(totalfila)) + (Number(total))).toFixed(2);
 
             }
-            $('#totalFinal').val(total);
+            if (total > 0) {
+                $('#totalFinal').val(total);
+            } else {
+
+                $('#totalFinal').val(total);
+
+            }
         } catch (error) {
             $('#totalFinal').val("0.00");
         }
@@ -200,11 +206,10 @@ $(document).ready(function() {
     }
     $(document).on('click', '#eliminando', function(event) {
         event.preventDefault();
-        if (confirm("SE QUITARA EL PRODUCTO\nDESEA CONTINUAR?")) {
 
-            $(this).closest('tr').remove();
+        $(this).closest('tr').remove();
 
-        }
+
     });
 
     //btn cancelar
@@ -266,10 +271,6 @@ $(document).ready(function() {
 
 
     });
-
-
-
-
 
 
 });

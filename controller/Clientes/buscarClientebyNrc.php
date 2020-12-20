@@ -19,8 +19,7 @@ if(isset($_POST['id'])) {
       'nombre' => $row['nombre'],
       'nit' => $row['nit'],
       'nrc' => $row['nrc'],
-      'giro' => $row['giro'],
-      'credito'=>$row['credito']
+      'giro' => $row['giro']
     );
   }
  $jsonstring= json_encode($json[0]);
