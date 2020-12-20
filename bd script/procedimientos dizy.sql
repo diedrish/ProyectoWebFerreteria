@@ -382,10 +382,6 @@ in municipio int
 )insert into clientes values(null,nombre,tipo,nit,nrc,direccion,giro,municipio);
 
 
-create procedure crearCuentaporCobrar(
-in cliente int,
-fecha varchar(30)
-)insert into cuentasporCobrar values(null,cliente,fecha,0.00);
 
 CREATE  PROCEDURE actualizarCliente(
  in id int,
@@ -418,9 +414,42 @@ in id int
 from departamentos as dpt ,clientes as cli ,municipio as mu where
  cli.idMunicipio=mu.idMunicipio and mu.idDepartamento=dpt.idDepartamento and cli.idCliente=id;
 
-create procedure buscarClienteCuentaporCobrar(
-in cliente int
-)select * from cuentasporCobrar where idCliente=cliente;
+
+-- para cuentas por cobrar
+
+create procedure crearCuentaporCobrar(
+in id varchar(30),
+in nombre varchar(200),
+in dui varchar(100),
+in nit varchar(100),
+in telefono varchar(30),
+in fecha varchar(30)
+)insert into cuentasporCobrar values(id,nombre,dui,nit,telefono,fecha,0.00);
+
+create procedure actualizarCuentaPorCobrar(
+in id varchar(30),
+in nom varchar(200),
+in du varchar(100),
+in ni varchar(100),
+in tel varchar(30)
+)update cuentasporcobrar set nombre=nom,dui=du,nit=nit,telefono=tel where idCliente=id;
+
+create procedure actualizarSaldoCuentaPorCobrar(
+in id varchar(30),
+in monto double
+)update cuentasporcobrar set saldo=monto where idCliente=id;
+
+create procedure buscarCuentaporCobrar(
+)select * from cuentasporcobrar;
+
+create procedure buscarCuentabyName(
+in nom varchar(200)
+)select * from cuentasporcobrar where nombre like nom;
+
+create procedure buscarCuentaporCobrarbyId(
+in id varchar(30)
+)select * from cuentasporcobrar where idCliente=id;
+
 
 -- para departametos
 

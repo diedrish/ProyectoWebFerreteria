@@ -48,6 +48,10 @@
                     <div class="card-body">
                         <!-- FORM TO ADD TASKS -->
                         <form id="clientes-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                                <input type="text" name="id" id="id" placeholder="ID Cliente"
+                                    maxlength="100" class="form-control" autocomplete="off" required>
+                            </div>
                             <div class="form-group">
                                 <input type="text" name="nombre" id="nombre" placeholder="Nombre Cliente"
                                     maxlength="200" class="form-control" autocomplete="off" required>
@@ -60,23 +64,12 @@
                                 <input type="text" name="nit" id="nit" placeholder="NIT" class="form-control"
                                     autocomplete="off" required>
                             </div>
-                         
-                            <div class="form-group">
-                                <label for="departamento">Seleccione Departamento</label>
-                                <select name="departamento"  id="departamento" class="custom-select">
-
-                                </select>
-                                <label for="municipio">Seleccione Munipio</label>
-                                <select name="municipio" id="municipio" class="custom-select">
-
-                                </select>
-
+                             <div class="form-group">
+                                <input type="text" name="telefono" id="telefono" placeholder="telefono" class="form-control"
+                                    autocomplete="off" required>
                             </div>
-                            <div class="form-group">
-                                ​<textarea id="direccion" name="direccion" rows="5" cols="50"
-                                    placeholder="Direccion del Cliente" autocomplete="off" maxlength="1500"
-                                    required></textarea>
-                            </div>  
+                         
+                             
                             <center>
                                 <div class="col-md-12">
                                     <button type="submit" 
@@ -103,9 +96,10 @@
                             <td>Nombre</td>
                             <td>Dui</td>
                             <td>Nit</td>
+                            <td>Telefono</td>
                         </tr>
                     </thead>
-                    <tbody id="tbClientes">
+                    <tbody id="tbClientesCreditos">
                     </tbody>
                 </table>
             </div>

@@ -230,9 +230,11 @@ foreign key(idDocumento)references tipodocumentos(idDocumento)
 );
 
 create table cuentasporCobrar(
-idCliente int ,
+idCliente varchar(30) ,
+nombre varchar(200),
 dui varchar(100),
 nit varchar(100),
+telefono varchar(20),
 fechaCreacion varchar(30),
 saldo double,
 primary key(idCliente)
@@ -240,7 +242,7 @@ primary key(idCliente)
 
 create table detalleCuentasporCobrar(
 lineaDetalle int auto_increment,
-idCliente int,
+idCliente varchar(30),
 fechaMovimiento varchar(30),
 debe double,
 haber double,
@@ -309,6 +311,8 @@ foreign key(idSucursal)references sucursales (idSucursal),
 foreign key(idDocumento)references tipodocumentos(idDocumento),
 foreign key (idOrden)references orden (idOrden)
 );
+
+
 
 
 
