@@ -29,18 +29,40 @@ nombre varchar(200),
 primary key (idCategoria)
 );
 
+create table lineasProductos(
+idLinea int auto_increment,
+nombreLinea varchar(200),
+primary key(idLinea)
+);
+create table FamiliasProductos(
+idFamilia int auto_increment,
+nombreFamilia varchar(200),
+primary key(idFamilia)
+);
+create table DepartamentosProductos(
+idDptProducto int auto_increment,
+nombreDptProducto varchar(200),
+primary key(idDptProducto)
+);
+
+
 create table productos(
 idProducto varchar(25),
 descripcion varchar(200),
 idCategoria varchar(10),
-linea varchar(200),
-familia varchar(200),
-departamento varchar(200),
+idLinea int,
+idFamilia int,
+idDptProducto int,
+idProveedor int,
 costo double,
 precio double,
 imagen varchar(700),
 primary key (idProducto),
-foreign key(idCategoria)references categorias(idCategoria)
+foreign key(idCategoria)references categorias(idCategoria),
+foreign key(idLinea)references lineasProductos(idLinea),
+foreign key(idFamilia)references FamiliasProductos(idFamilia),
+foreign key(idDptProducto)references DepartamentosProductos(idDptProducto),
+foreign key(idProveedor)references proveedores(idProveedor)
 );
 
 create table existencias(

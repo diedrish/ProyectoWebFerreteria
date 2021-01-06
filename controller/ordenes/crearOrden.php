@@ -12,7 +12,8 @@ $anio = date("Y");
 $mes = date("m");
 $dia = date("d");
 $fecha=$anio."-".$mes."-".$dia;
-$usuario="1";
+session_start();
+$usuario=$_SESSION['vsCodigo'];
 
 
 include '../conexion/database.php';

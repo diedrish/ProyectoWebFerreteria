@@ -9,7 +9,7 @@ $linea=$_POST["linea"];
 $familia=$_POST["familia"];
 $departamento=$_POST["departamento"];
 $imagen = $_FILES["foto"];
-
+$proveedor=$_POST["proveedor"];
     
         if ($imagen["type"] == "image/jpg" or $imagen["type"] == "image/jpeg") {
             $destino = "../../images/productos/" . md5($imagen["tmp_name"]) . ".jpg";
@@ -31,7 +31,7 @@ $imagen = $_FILES["foto"];
         
                 include '../conexion/database.php';
                 $query = "call crearProducto('$categoria','$id','$nombre','$linea','$familia',
-                '$departamento','$costo','$precio','$ruta')";
+                '$departamento','$proveedor','$costo','$precio','$ruta')";
         
                 $result = mysqli_query($connection, $query);
         

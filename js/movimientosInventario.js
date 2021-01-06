@@ -331,12 +331,7 @@ $(document).ready(function() {
 
     //btn cancelar
     $('#btnCancelar').click(function() {
-        if (confirm("LOS DATOS ACTUALES NO SE GUARDARAN\nDESEA CONTINUAR?")) {
-            $('#egresos-form').trigger('reset');
-            edit = false;
-
-
-        }
+        location.reload();
     });
 
 

@@ -1,6 +1,6 @@
 <?php
 
-$sucursal="1";
+$sucursal=$_SESSION['vsSucursal'];
 $caja=$_POST["caja"];
 $doc=$_POST["documento"];
 $correlativo="";

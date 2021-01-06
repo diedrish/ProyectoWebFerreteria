@@ -1,6 +1,6 @@
 <?php
 
-$sucursal="1";
+$sucursal=$_SESSION['vsSucursal'];
 $doc=$_POST["documento"];
 $serie=$_POST["serie"];
 $desde=$_POST["desde"];

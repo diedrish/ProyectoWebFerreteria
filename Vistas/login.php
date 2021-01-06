@@ -1,16 +1,3 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['vsNivel'])) {
-    
-} elseif ($_SESSION['vsNivel'] == "C") {
-    header("location:Clientes/menuCliente.php");
-} else{
-    
-    
-}
- 
-?>
 
 <!DOCTYPE html>
 <html>

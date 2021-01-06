@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -42,7 +51,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="../Admin/menuAdmin.php" style="color:#FFFFFF;">
+                    <a href="<?php echo $_SESSION['menu'];?>" style="color:#FFFFFF;">
                         <img src="../../images/home.jpg" border="0" title="HOME" width="50" height="50">
                     </a>
                 </form>
@@ -98,6 +107,33 @@
                 <div class="form-group col-md-2  ">
                     <label for="totaldoc">Total Doc. </label>
                     <input type="text" name="totaldoc" id="totaldoc" class="form-control" style="width:50%"
+                        autocomplete="off">
+                </div>
+
+            </div>
+
+            
+            <div class="row">
+
+                <div class="form-group col-md-2 ">
+                    <label for="importacion">IMPORTACION</label>
+                    <input type="text" name="importacion" id="importacion" 
+                        class="form-control" autocomplete="off">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="seguro">SEGUROS</label>
+                    <input type="text" name="seguro" id="seguro" 
+                        class="form-control" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-2 ">
+                    <label for="transporte">TRANSPORTE</label>
+                    <input type="text" name="transporte" id="transporte" 
+                        class="form-control" autocomplete="off">
+                </div>
+                <div class="form-group col-md-2  ">
+                    <label for="gastos">OTROS GASTOS</label>
+                    <input type="text" name="gastos" id="gastos" class="form-control" 
                         autocomplete="off">
                 </div>
 

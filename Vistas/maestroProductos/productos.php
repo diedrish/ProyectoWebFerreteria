@@ -1,4 +1,13 @@
+<?php
+session_start();
 
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +16,8 @@
     <title></title>
     <link rel="shortcut icon" href="#" />
     <!-- BOOTSTRAP 4  -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../../css/empresa.css">
 
     <title></title>
@@ -23,15 +33,17 @@
     <!-- NAVIGATION  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Gestion de Productos</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <form class="form-inline my-2 my-lg-0">
-                    <input name="search" id="search" class="form-control mr-sm-2" autocomplete="off"  placeholder="Buscar por Nombre" aria-label="Search">
-                    <a href="../Admin/menuAdmin.php" style="color:#FFFFFF;">
+                    <input name="search" id="search" class="form-control mr-sm-2" autocomplete="off"
+                        placeholder="Buscar por Nombre" aria-label="Search">
+                    <a href="<?php echo $_SESSION['menu'];?>" style="color:#FFFFFF;">
                         <img src="../../images/home.jpg" border="0" title="HOME" width="50" height="50">
                     </a>
                 </form>
@@ -46,30 +58,55 @@
                     <div class="card-body">
                         <!-- FORM TO ADD TASKS -->
                         <form id="productos-form" enctype="multipart/form-data">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="categoria">Seleccione una Categoria</label>
                                 <select name="categoria" id="categoria" class="custom-select">
 
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="id" id="id" placeholder="Codigo del Producto" maxlength="30" class="form-control" autocomplete="off" required>
+                                <input type="text" name="id" id="id" placeholder="Codigo del Producto" maxlength="30"
+                                    class="form-control" autocomplete="off" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del Producto" maxlength="200" class="form-control" autocomplete="off" required>
-                            </div> 
-                            <div class="form-group">
-                                <input type="text" name="linea" id="linea" placeholder="linea del Producto" class="form-control" autocomplete="off" required>
-                            </div> <div class="form-group">
-                                <input type="text" name="familia" id="familia" placeholder="Familia del producto" class="form-control" autocomplete="off" required>
-                            </div> <div class="form-group">
-                                <input type="text" name="departamento" id="departamento" placeholder="Departamento del Producto" class="form-control" autocomplete="off" required>
+                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del Producto"
+                                    maxlength="200" class="form-control" autocomplete="off" required>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="linea">Seleccione una Linea</label>
+                                <select name="linea" id="linea" class="custom-select">
+
+                                </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="familia">Seleccione una Familia</label>
+                                <select name="familia" id="familia" class="custom-select">
+
+                                </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="departamento">Seleccione un Departamento</label>
+                                <select name="departamento" id="departamento" class="custom-select">
+
+                                </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="proveedor">Seleccione un Proveedor</label>
+                                <select name="proveedor" id="proveedor" class="custom-select">
+
+                                </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="costo" id="costo" placeholder="Costo del Producto" class="form-control" autocomplete="off" required>
+                                <input type="text" name="costo" id="costo" placeholder="Costo del Producto"
+                                    class="form-control" autocomplete="off" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="precio" id="precio" placeholder="Precio del Producto" class="form-control" autocomplete="off" required>
+                                <input type="text" name="precio" id="precio" placeholder="Precio del Producto"
+                                    class="form-control" autocomplete="off" required>
                             </div>
                             <div class="form-group">
                                 <label>IMAGEN PRODUCTO:</label> <input type="file" id="foto" name="foto">
@@ -77,10 +114,11 @@
 
                             <center>
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary btn-lg active text-center" >
+                                    <button type="submit" class="btn btn-primary btn-lg active text-center">
                                         Guardar
                                     </button>
-                                    <button type="button" id="btnCancelar" class="btn btn-danger btn-lg active text-center" value="Cancelar">
+                                    <button type="button" id="btnCancelar"
+                                        class="btn btn-danger btn-lg active text-center" value="Cancelar">
                                         Cancelar
                                     </button>
                                 </div>
@@ -107,7 +145,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- Frontend Logic -->
     <script src="../../js/productos.js"></script>
 </body>

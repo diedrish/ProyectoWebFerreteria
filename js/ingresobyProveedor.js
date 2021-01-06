@@ -45,9 +45,11 @@ $(document).ready(function() {
         var numerodoc = $('#numerodoc').val();
         var totaldoc = $('#totaldoc').val();
 
+
         if (numerodoc === "" || totaldoc === "") {
             alert("VERFIQUE NUMERO DOCUMENTO U TOTAL DOCUMENTO");
-        } else if (descripcion === "") {
+        } else
+        if (descripcion === "") {
             alert("VERIFIQUE EL PRODUCTO")
         } else if (precio < 0) {
             alert("VERIFIQUE EL PRECIO");
@@ -93,10 +95,11 @@ $(document).ready(function() {
 
     }
 
-    //btn cancelar
+    //btn guardar
     $('#btnGuardar').click(function() {
         var numerodoc = $('#numerodoc').val();
         var totaldoc = $('#totaldoc').val();
+
 
         if (numerodoc === "" || totaldoc === "") {
             alert("VERFIQUE NUMERO DOCUMENTO U TOTAL DOCUMENTO");
@@ -116,6 +119,10 @@ $(document).ready(function() {
                         estadodoc: $("#estadodoc").val(),
                         estadoingreso: "APROBADO",
                         total: $('#totaldoc').val(),
+                        importacion = $('#importacion').val(),
+                        seguro = $('#seguro').val(),
+                        transporte = $('#transporte').val(),
+                        gastos = $('#gastos').val(),
                         idSucursal: "1"
                     },
                     type: 'POST',
@@ -266,12 +273,7 @@ $(document).ready(function() {
 
     //btn cancelar
     $('#btnCancelar').click(function() {
-        if (confirm("LOS DATOS ACTUALES NO SE GUARDARAN\nDESEA CONTINUAR?")) {
-            $('#ingresos-form').trigger('reset');
-            edit = false;
-
-
-        }
+        location.reload();
     });
 
 

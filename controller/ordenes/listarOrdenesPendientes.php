@@ -3,7 +3,7 @@
 include '../conexion/database.php';
 
 date_default_timezone_set("AMERICA/El_Salvador");
-$sucursal="1";
+$sucursal=$_SESSION['vsSucursal'];
 $anio = date("Y");
 $mes = date("m");
 $dia = date("d");

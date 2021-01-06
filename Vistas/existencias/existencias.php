@@ -1,5 +1,14 @@
 
-<!DOCTYPE html>
+<?php
+session_start();
+
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,7 +31,7 @@
 
     <!-- NAVIGATION  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Gestion de Productos</a>
+        <a class="navbar-brand" href="#">Existencias </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="../Admin/menuAdmin.php" style="color:#FFFFFF;">
+                    <a href="<?php echo $_SESSION['menu'];?>" style="color:#FFFFFF;">
                         <img src="../../images/home.jpg" border="0" title="HOME" width="50" height="50">
                     </a>
                 </form>

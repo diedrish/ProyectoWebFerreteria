@@ -1,5 +1,13 @@
+<?php
+session_start();
 
-<!DOCTYPE html>
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -50,8 +58,8 @@
             </ul>
         </div>
     </nav>
-    <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-6">
-                <table class="table table-bordered table-striped mb-0 col-md-6" >
+    <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7">
+                <table class="table table-bordered table-striped mb-0 col-md-7" >
             <tr>
                 <td >
                     <section style="border:solid;
@@ -109,6 +117,34 @@
                     <center>
                         <section style="border:solid;
     padding: 10px;">
+                            <center> <img class="img" src="../../images/iconos/ingresos.png" width="50"
+                                    height="50"><br><br></center>
+                            <center> <input type="button" name="perfil" width="50" value="Ver Compras"
+                                    class="boton btn btn-info" onclick="location.href='../Movimientos/verIngresos.php'">
+                            </center>
+                        </section>
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <section style="border:solid;
+    padding: 10px;">
+                            <center> <img class="img" src="../../images/iconos/egresos.png" width="50"
+                                    height="50"><br><br></center>
+                            <center> <input type="button" name="perfil" width="50" value="Ver Salidas"
+                                    class="boton btn btn-info" onclick="location.href='../Movimientos/verEgresos.php'">
+                            </center>
+                        </section>
+                    </center>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    <center>
+                        <section style="border:solid;
+    padding: 10px;">
                             <center> <img class="img" src="../../images/iconos/existencia.png" width="50" height="50"><br><br></center>
                             <center> <input type="button" name="perfil" width="50" value="Ver Existencias" class="boton btn btn-info" onclick="location.href='../existencias/existencias.php'"></center>
                         </section>
@@ -117,20 +153,49 @@
                 <td>
                     <section style="border:solid;
     padding: 10px;">
-                        <center><img class="img" src="../../images/iconos/prefactura.png" width="50" height="50"><br><br></center>
-                        <center> <input type="button" name="perfil" width="50" value="Prefacturar" class="boton btn btn-info" onclick="location.href='../ordenes/orden.php'"></center>
+                        <center><img class="img" src="../../images/iconos/prefactura.png" width="50"
+                                height="50"><br><br></center>
+                        <center> <input type="button" name="perfil" width="50" value="       Ordenes      "
+                                class="boton btn btn-info" onclick="location.href='../ordenes/orden.php'"></center>
                     </section>
                 </td>
                 <td>
                     <section style="border:solid;
     padding: 10px;">
-                        <center><img class="img" src="../../images/iconos/factura.png" width="50" height="50"><br><br></center>
-                        <center> <input type="button" name="perfil"  width="50" value="Facturar" class="boton btn btn-info" onclick="location.href='../Cajera/facturacion.php'"></center>
+                        <center><img class="img" src="../../images/iconos/factura.png" width="50" height="50"><br><br>
+                        </center>
+                        <center> <input type="button" name="perfil" width="50" value="     Facturacion    "
+                                class="boton btn btn-info" onclick="location.href='../Cajera/facturacion.php'"></center>
                     </section>
                 </td>
 
+
             </tr>
 
+
+            <tr>
+                <td>
+                    <center>
+                        <section style="border:solid;
+    padding: 10px;">
+                            <center> <img class="img" src="../../images/iconos/serie de facturas.png" width="50" height="50"><br><br></center>
+                            <center> <input type="button" name="perfil" width="50" value="Correlativos Facturas" class="boton btn btn-info" onclick="location.href='../correlativos/Correlativos.php'"></center>
+                        </section>
+                    </center>
+                </td>
+                <td>
+                    <section style="border:solid;
+    padding: 10px;">
+                        <center><img class="img" src="../../images/iconos/correlativos caja.png" width="50"
+                                height="50"><br><br></center>
+                        <center> <input type="button" name="perfil" width="50" value="Correlativos por Caja"
+                                class="boton btn btn-info" onclick="location.href='../correlativos/correlativosCaja.php'"></center>
+                    </section>
+                </td>
+             
+
+
+            </tr>
         </table>
 
     </div>

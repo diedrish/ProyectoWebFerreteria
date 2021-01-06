@@ -15,7 +15,8 @@ include '../conexion/database.php';
         'idProducto' => $row['idProducto'],
         'nombre' => $row['descripcion'],
         'precio' => $row['precio'],
-        'categoria'=>$row['idCategoria'] 
+        'categoria'=>$row['idCategoria'],
+        'foto'=>$row['imagen'] 
     );
   }
   $jsonstring=json_encode($json,JSON_UNESCAPED_UNICODE);

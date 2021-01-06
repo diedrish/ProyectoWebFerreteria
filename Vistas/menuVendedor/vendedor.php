@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -66,7 +75,13 @@
                                 class="boton btn btn-info" onclick="location.href='../clientes/clientes.php'" ></center>
                     </section>
                 </td>
-
+                <td>
+                    <section style="border:solid;
+    padding: 10px;">
+                        <center><img class="img" src="../../images/iconos/prefactura.png" width="50" height="50"><br><br></center>
+                        <center> <input type="button" name="perfil" width="50" value="Prefacturar" class="boton btn btn-info" onclick="location.href='../ordenes/orden.php'"></center>
+                    </section>
+                </td>
                 <td>
                     <section style="border:solid;
     padding: 10px;">

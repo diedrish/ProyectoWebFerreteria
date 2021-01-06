@@ -9,7 +9,6 @@ $telefono = $_POST["telefono"];
 $direccion = $_POST["direccion"];
 
 $query = "call actualizarProveedor('$id','$nombre','$correo','$telefono','$direccion')";
-echo $query;
 
 $result = mysqli_query($connection, $query);
 

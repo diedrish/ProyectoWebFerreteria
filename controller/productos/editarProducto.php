@@ -9,6 +9,8 @@ $linea=$_POST["linea"];
 $familia=$_POST["familia"];
 $departamento=$_POST["departamento"];
 $imagen = $_FILES["foto"];
+$proveedor=$_POST["proveedor"];
+
 
     
         if ($imagen["type"] == "image/jpg" or $imagen["type"] == "image/jpeg") {
@@ -19,8 +21,8 @@ $imagen = $_FILES["foto"];
         
            
                 include '../conexion/database.php';
-                $query = "call crearProducto('$categoria','$id','$nombre','$linea','$familia',
-                '$departamento','$costo','$precio','$ruta')";
+                $query = "call actualizarProducto('$categoria','$id','$nombre','$linea','$familia',
+                '$departamento','$proveedor','$costo','$precio','$ruta')";
         
                 $result = mysqli_query($connection, $query);
         

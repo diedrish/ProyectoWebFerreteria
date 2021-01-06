@@ -1,5 +1,13 @@
+<?php
+session_start();
 
-<!DOCTYPE html>
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,7 +26,7 @@
     <!-- NAVIGATION  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#"></a>
-        <a class="navbar-brand" href="#">Ingresos</a>
+        <a class="navbar-brand" href="#">Ingresos por Compras</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

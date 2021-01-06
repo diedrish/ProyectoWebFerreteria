@@ -2,13 +2,14 @@
 
 include '../conexion/database.php';
 
+session_start();
 date_default_timezone_set("AMERICA/El_Salvador");
-$sucursal="1";
+$sucursal=$_SESSION['vsSucursal'];
 $anio = date("Y");
 $mes = date("m");
 $dia = date("d");
 $fecha=$anio."-".$mes."-".$dia;
-$usuario="1";
+$usuario=$_SESSION['vsCodigo'];
 
   $query = "call buscarOrdenesbyVendedor('$fecha','$sucursal','$usuario')";
   $result = mysqli_query($connection, $query);
@@ -17,7 +18,6 @@ $usuario="1";
   } 
 
   $json = array(); 
-  
   while($row = mysqli_fetch_array($result)) {
     $json[] = array(
         'orden' => $row['idOrden'],

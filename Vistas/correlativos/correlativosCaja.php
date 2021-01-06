@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+if (!isset($_SESSION['vsNivel'])) {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} elseif ($_SESSION['vsEstado'] == "INACTIVO") {
+    echo "<script> window.location='../../Vistas/login.php'; </script>";
+} else {
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -33,7 +42,7 @@
                 <form class="form-inline my-2 my-lg-0">
                     <input name="search" id="search" class="form-control mr-sm-2" autocomplete="off" type="search"
                         placeholder="Buscar por nombre" aria-label="Search">
-                    <a href="../Admin/menuAdmin.php" style="color:#FFFFFF;">
+                    <a href="<?php echo $_SESSION['menu'];?>" style="color:#FFFFFF;">
                         <img src="../../images/home.jpg" border="0" title="HOME" width="50" height="50">
                     </a>
                 </form>

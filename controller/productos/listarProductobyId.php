@@ -21,9 +21,9 @@ if(isset($_POST['id'])) {
         'precio' => $row['precio'],
         'costo' => $row['costo'],
         'categoria'=>$row['idCategoria'],
-        'linea' => $row['linea'], 
-        'familia' => $row['familia'],
-        'departamento' => $row['departamento'],
+        'linea' => $row['idLinea'], 
+        'familia' => $row['idFamilia'],
+        'departamento' => $row['idDptProducto'],
         'foto' => $row['imagen']
     );
   }

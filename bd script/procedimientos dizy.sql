@@ -1,30 +1,40 @@
  -- procedimientos dizy
  
+ 
+ -- para empleados
+ CREATE  PROCEDURE validarUsuario(
+in userName varchar(100),
+in userClave varchar(100)
+)
+select * from empleados where usuario=userName and clave=userClave;
+
  -- para  productos
  create procedure crearProducto(
 in categoria varchar(10),
 in id varchar(30),
 in descripcion varchar(200),
-in linea varchar(200),
-in familia varchar(200),
-in departamento varchar(200),
+in linea int,
+in familia int,
+in departamento int,
+in proveedor int,
 in costo double,
 in precio double,
 in imagen varchar(700)
- )insert into productos values(id,descripcion,categoria,linea,familia,departamento,costo,precio,imagen);
+ )insert into productos values(id,descripcion,categoria,linea,familia,departamento,proveedor,costo,precio,imagen);
  
  create procedure actualizarProducto(
  in categoria varchar(10),
  in id varchar(30),
  in descripcion varchar(200),
-in linea varchar(200),
-in familia varchar(200),
-in departamento varchar(200),
+in linea int,
+in familia int,
+in departamento int,
+in proveedor int,
 in costo double,
 in precio double,
 in imagen varchar(700)
  )update productos set idCategoria=categoria,
- descripcion=descripcion,costo=costo,precio=precio,linea=linea,familia=familia,departamento=departamento,imagen=imagen where idProducto=id;
+ descripcion=descripcion,costo=costo,precio=precio,idLinea=linea,idFamilia=familia,idDptProducto=departamento,idProveedor=proveedor,imagen=imagen where idProducto=id;
  
 
  create procedure buscarProductobyId(
@@ -496,6 +506,80 @@ in idSucursal int
  )insert into facturacion values(null,correlativo,documento,numerodoc,cliente,nrc,nit,giro,tipoFactura,sumas,iva,subtotal,
  retencion,totalFinal,idOrden,fechaFactura,estado,idEmpleado,idSucursal);
 
+ -- PARA familias
+ create procedure crearFamilia(
+in nombre varchar(200)
+)insert into familiasproductos values(null,nombre);
+ 
+ 
+ create procedure actualizarFamilia(
+in id int,
+in nombre varchar(200)
+ )update familiasproductos set nombreFamilia=nombre where idFamilia=id;
+ 
+
+ create procedure buscarFamiliabyId(
+ in id varchar(30)
+ )select * from familiasproductos where idFamilia=id;
+ 
+ create procedure buscarFamiliabyName(
+ in nombre varchar(30)
+ )select * from familiasproductos where nombreFamilia like nombre;
+ 
+ 
+ create procedure buscarFamilia(
+ )select * from familiasproductos;
+ 
+  -- PARA Lineas
+  
+ create procedure crearLinea(
+in nombre varchar(200)
+)insert into lineasproductos values(null,nombre);
+ 
+ 
+ create procedure actualizarLinea(
+in id int,
+in nombre varchar(200)
+ )update lineasproductos set nombreLinea=nombre where idLinea=id;
+ 
+
+ create procedure buscarLineabyId(
+ in id varchar(30)
+ )select * from lineasproductos where idLinea=id;
+ 
+ create procedure buscarLineabyName(
+ in nombre varchar(30)
+ )select * from lineasproductos where nombreLinea like nombre;
+ 
+ 
+ create procedure buscarLinea(
+ )select * from lineasproductos;
+ 
+ 
+   -- para DepartamentosProductos
+  
+ create procedure crearDptProducto(
+in nombre varchar(200)
+)insert into departamentosproductos values(null,nombre);
+ 
+ 
+ create procedure actualizarDptProducto(
+in id int,
+in nombre varchar(200)
+ )update departamentosproductos set nombreDptProducto=nombre where idDptProducto=id;
+ 
+
+ create procedure buscarDptProductobyId(
+ in id varchar(30)
+ )select * from departamentosproductos where idDptProducto=id;
+ 
+ create procedure buscarDptProductobyName(
+ in nombre varchar(30)
+ )select * from departamentosproductos where nombreDptProducto like nombre;
+ 
+ 
+ create procedure buscarDptProducto(
+ )select * from departamentosproductos;
  
  
  
